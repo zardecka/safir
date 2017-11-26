@@ -9,7 +9,9 @@ $(document).on('pageInit', '.page[data-page="index"]',  function(e){
 
 
 // Initialize your app
-var myApp = new Framework7();
+var myApp = new Framework7(
+    { material: true,}
+);
 
 // Export selectors engine
 var $$ = Dom7;
@@ -285,7 +287,41 @@ myApp.onPageInit('my_trips', function (page) {
         });
     });
 
+myApp.onPageInit('enter_code', function (page) {
 
+
+    $$("#submit_button").click(function (data) {
+        myApp.showIndicator();
+        $$.ajax({
+            type: 'POST',
+            url: captain + 'verfy_code/',
+
+            data: JSON.stringify({
+                activation_code: $$("#activation_code").val(),
+                email: $$("#email").val()
+               
+            }),
+            success: function (data) {
+                myApp.hideIndicator();
+                if(data.code == 0){
+
+                }else{
+                    myApp.alert('',data.message);
+                }
+
+            },
+            error: function (data) {
+                myApp.hideIndicator();
+                console.log('An error occurred.');
+                console.log(data);
+            }
+            , dataType: 'json'
+        
+        
+        });
+    
+    });
+});
 myApp.onPageInit('filter_trip', function (page) {
    
       //function today(){
@@ -481,6 +517,15 @@ $year = $$('#year').val();
         }),
         success: function(data) {
             myApp.hideIndicator();
+            if(data.code==0){
+                mainView.router.loadPage({
+                    url: 'enter_code.html',
+                    ignoreCache: true,
+                    reload: true
+                }); 
+            }else{
+                myApp.alert('',data.message);
+            }
             console.log(data.code);
            // console.log(JSON.stringify(data)); 
            // mainView.router.loadPage("about.html")
@@ -523,14 +568,14 @@ $year = $$('#year').val();
             encodingType: Camera.EncodingType.JPEG,
             mediaType: Camera.MediaType.PICTURE,
             targetWidth: 600,
-            targetHeight: 400//,
+            targetHeight: 400,
            // sourceType: navigator.camera.PictureSourceType.PHOTOLIBRARY // not originally included
-            //sourceType: navigator.camera.PictureSourceType.CAMERA
+            sourceType: navigator.camera.PictureSourceType.CAMERA
         }  
-        navigator.camera.getPicture(success,fail, options);
+        navigator.camera.getPicture(onSuccess, onFail, options);
     }
         
-    function success(thePicture)
+    function onSuccess(thePicture)
     {
         alert("Picture Uploaded");
       //  var image = document.getElementById('imgArea');
@@ -538,7 +583,7 @@ $year = $$('#year').val();
        $$("#imgArea").attr("src", thePicture);
     }
         
-    function fail(e)
+    function onFail(e)
     {
         alert("Image failed: " + e.message);
     }
