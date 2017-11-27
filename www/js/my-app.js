@@ -556,9 +556,7 @@ $year = $$('#year').val();
 
   $$("#btnTakePicture").click(function(data){
       console.log("HII");
-    takePic();
-    function takePic(e)
-    {
+    
 
       console.log("I am here");
       
@@ -570,10 +568,10 @@ $year = $$('#year').val();
             targetWidth: 600,
             targetHeight: 400,
            // sourceType: navigator.camera.PictureSourceType.PHOTOLIBRARY // not originally included
-            sourceType: navigator.camera.PictureSourceType.CAMERA
+            sourceType: navigator.camera.PictureSourceType.CAMERA //Camera.PictureSourceType.PHOTOLIBRARY,
         }  
         navigator.camera.getPicture(onSuccess, onFail, options);
-    }
+    
         
     function onSuccess(thePicture)
     {
@@ -940,7 +938,7 @@ myApp.onPageInit('rating', function (page) {
 
 });
 
-    //upload car image to the server 
+/*     //upload car image to the server 
     function onDeviceReady() {
         
         // Retrieve image file location from specified source
@@ -953,7 +951,7 @@ myApp.onPageInit('rating', function (page) {
             });
 
     }
-
+ */
     function uploadPhoto(imageURI) {
         var options = new FileUploadOptions();
         options.fileKey="file";

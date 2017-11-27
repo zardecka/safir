@@ -13,4 +13,5 @@
     <allow-navigation href="http://*/*" />
     <allow-intent href="https://*/*" />
     <plugin name="cordova-plugin-camera" spec="~3.0.0" />
+    <engine name="android" spec="~6.3.0" />
 </widget>
