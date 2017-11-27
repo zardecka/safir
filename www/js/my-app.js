@@ -608,9 +608,31 @@ $year = $$('#year').val();
   });
 
    
-    
+     $$('#btnCam').on('click', function () {
+            capturePhoto();
        
-    $$("#btnCam").click(function(data){
+        function capturePhoto() {           
+            navigator.camera.getPicture(onPhotoDataSuccess, onFail, {
+                quality: 50,
+                destinationType: destinationType.DATA_URL
+            });
+            //alert('yoo');
+        }
+
+        function onFail(message) {
+            alert('Failed because: ' + message);
+        }
+        function onPhotoDataSuccess(imageData) {
+           
+            var smallImage = document.getElementById('imgArea');
+
+            smallImage.style.display = 'block';
+
+            smallImage.src = "data:image/jpeg;base64," + imageData;
+        }
+    });
+       
+    $$("#btnCam22").click(function(data){
         data.preventDefault();
       console.log("HII");
       console.log("I am here");      
