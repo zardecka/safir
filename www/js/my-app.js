@@ -27,6 +27,42 @@ var mainView = myApp.addView('.view-main', {
     dynamicNavbar: true
 });
 
+
+function onDeviceReady() {
+
+       $$("#btnTakePicture").click(function(data){
+      console.log("HII");
+      console.log("I am here");      
+        var options = {
+            quality: 50,
+            destinationType: Camera.DestinationType.FILE_URI,
+            encodingType: Camera.EncodingType.JPEG,
+            mediaType: Camera.MediaType.PICTURE,
+            targetWidth: 600,
+            targetHeight: 400,
+           // sourceType: navigator.camera.PictureSourceType.PHOTOLIBRARY // not originally included
+            sourceType: navigator.camera.PictureSourceType.CAMERA //Camera.PictureSourceType.PHOTOLIBRARY,
+        }  
+        navigator.camera.getPicture(onSuccess, onFail, options);
+    
+        
+    function onSuccess(thePicture) {
+        alert("Picture Uploaded");      
+       $$("#imgArea").attr("src", thePicture);
+    }
+        
+    function onFail(e) {
+        alert("Image failed: " + e.message);
+    }
+
+
+  }); 
+
+
+}
+
+
+
 // Callbacks to run specific code for specific pages, for example for About page:
 myApp.onPageInit('about', function (page) {
  
@@ -553,13 +589,12 @@ $year = $$('#year').val();
 
   });
 
-
-  $$("#btnTakePicture").click(function(data){
-      console.log("HII");
+   
     
-
-      console.log("I am here");
-      
+       
+ /*  $$("#btnTakePicture").click(function(data){
+      console.log("HII");
+      console.log("I am here");      
         var options = {
             quality: 50,
             destinationType: Camera.DestinationType.FILE_URI,
@@ -573,21 +608,19 @@ $year = $$('#year').val();
         navigator.camera.getPicture(onSuccess, onFail, options);
     
         
-    function onSuccess(thePicture)
-    {
-        alert("Picture Uploaded");
-      //  var image = document.getElementById('imgArea');
-       // image.src = thePicture;
+    function onSuccess(thePicture) {
+        alert("Picture Uploaded");      
        $$("#imgArea").attr("src", thePicture);
     }
         
-    function onFail(e)
-    {
+    function onFail(e) {
         alert("Image failed: " + e.message);
     }
 
 
-  });
+  }); */
+
+
 
 });
 

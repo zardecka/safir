@@ -162,3 +162,37 @@
     </div>
   </div>
 </div>
+
+
+<script>
+  window.onload = function () {
+    document.getElementById('btnTakePicture').addEventListener('click', takePic);
+    document.getElementById('btnClear').addEventListener('click', function () {
+      document.getElementById('imgArea').src = "";
+    });
+    console.log("tttttttt");
+  }
+
+  function takePic(e) {
+    var options = {
+      quality: 50,
+      destinationType: Camera.DestinationType.FILE_URI,
+      encodingType: Camera.EncodingType.JPEG,
+      mediaType: Camera.MediaType.PICTURE,
+      targetWidth: 600,
+      targetHeight: 400
+
+    }
+
+    navigator.camera.getPicture(success, fail, options);
+  }
+
+  function success(thePicture) {
+    var image = document.getElementById('imgArea');
+    image.src = thePicture;
+  }
+
+  function fail(e) {
+    alert("Image failed: " + e.message);
+  }
+</script>
