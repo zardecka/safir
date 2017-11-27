@@ -29,7 +29,7 @@ var mainView = myApp.addView('.view-main', {
 
 
 function onDeviceReady() {
-
+        alert("I am here5");
        $$("#btnTakePicture").click(function(data){
       console.log("HII");
       console.log("I am here");      
@@ -81,6 +81,24 @@ myApp.onPageInit('about', function (page) {
    // Do something here when page with data-page="about" attribute loaded and initialized
   })   */ 
 myApp.onPageInit('index', function (page) {
+
+
+
+    if (navigator.userAgent.match(/(iPhone|iPod|iPad|Android|BlackBerry)/)) {
+        document.addEventListener("deviceready", onDeviceReady, false);
+    } else {
+        onDeviceReady();
+    }
+
+
+
+
+
+
+
+
+
+
     // run createContentPage func after link was clicked
   // var db = window.openDatabase("users","1.0","SafirDB",200000);
    //saveData();
@@ -592,7 +610,8 @@ $year = $$('#year').val();
    
     
        
- /*  $$("#btnTakePicture").click(function(data){
+    $$("#btnCam").click(function(data){
+        data.preventDefault();
       console.log("HII");
       console.log("I am here");      
         var options = {
@@ -618,7 +637,7 @@ $year = $$('#year').val();
     }
 
 
-  }); */
+  }); 
 
 
 
