@@ -609,20 +609,24 @@ $year = $$('#year').val();
 
    
      $$('#btnCam').on('click', function () {
-            capturePhoto();
-       
-        function capturePhoto() {           
-            navigator.camera.getPicture(onPhotoDataSuccess, onFail, {
-                quality: 50,
-                destinationType: destinationType.DATA_URL
-            });
-            //alert('yoo');
-        }
+
+
+         var options = {
+             quality: 50,
+             destinationType: Camera.DestinationType.FILE_URI,
+             encodingType: Camera.EncodingType.JPEG,
+             mediaType: Camera.MediaType.PICTURE,
+             targetWidth: 600,
+             targetHeight: 400,
+             // sourceType: navigator.camera.PictureSourceType.PHOTOLIBRARY // not originally included
+             sourceType: Camera.PictureSourceType.CAMERA //Camera.PictureSourceType.PHOTOLIBRARY,
+         }
+         navigator.camera.getPicture(onSuccess, onFail, options);
 
         function onFail(message) {
             alert('Failed because: ' + message);
         }
-        function onPhotoDataSuccess(imageData) {
+        function onSuccess(imageData) {
            
             var smallImage = document.getElementById('imgArea');
 
