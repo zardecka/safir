@@ -609,7 +609,7 @@ $year = $$('#year').val();
 
    
      $$('#btnCam').on('click', function () {
-
+        console.log("hello");
 
          var options = {
              quality: 50,
