@@ -29,8 +29,8 @@ var mainView = myApp.addView('.view-main', {
 
 
 function onDeviceReady() {
-        alert("I am here5");
-       $$("#btnTakePicture").click(function(data){
+   alert("I am here6");
+      // $$("#btnTakePicture").click(function(data){
       console.log("HII");
       console.log("I am here");      
         var options = {
@@ -56,7 +56,7 @@ function onDeviceReady() {
     }
 
 
-  }); 
+  //}); 
 
 
 }
