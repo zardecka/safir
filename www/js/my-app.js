@@ -16,11 +16,11 @@ var myApp = new Framework7(
 // Export selectors engine
 var $$ = Dom7;
 
-var baseURL = 'http://safir.mdawaina.com/';
-//var baseURL = 'http://localhost:81/safirweb/';
+//var baseURL = 'http://safir.mdawaina.com/';
+var baseURL = 'http://localhost:81/safirweb/';
 var captain = baseURL + 'index.php/captain/';
 var trips = baseURL + 'index.php/trips/';
-var upload_image = baseURL + 'index.php/captain/';
+var upload_image = baseURL + 'index.php/captain/upload_image/';
 // Add view
 var mainView = myApp.addView('.view-main', {
     // Because we use fixed-through navbar we can enable dynamic navbar
@@ -607,6 +607,36 @@ $year = $$('#year').val();
 
   });
 
+
+
+
+
+    $$('#fortest').on('click',function(){
+      
+        var fileURI = $$('#imgArea').attr('src');
+       // alert(encodeURI(fileURI))
+        var options = new FileUploadOptions();
+        options.fileKey = "uploadfile";
+        options.fileName ='myimage444'; // fileURI.substr(fileURI.lastIndexOf('/') + 1);
+        options.mimeType = "image/jpeg";
+        options.params = {}; // if we need to send parameters to the server request
+        var ft = new FileTransfer();
+       
+        var win = function (r) {          
+            alert('Done!');
+        }
+
+        var fail = function (error) {           
+                alert('Ups. Something wrong happens!');           
+        }
+
+        ft.upload(fileURI, encodeURI(upload_image), win, fail, options);
+        console.log("khlas done!");
+
+    });
+
+
+
    
      $$('#btnCam').on('click', function () {
         console.log("hello");
@@ -626,14 +656,47 @@ $year = $$('#year').val();
         function onFail(message) {
             alert('Failed because: ' + message);
         }
-        function onSuccess(thePicture) {
-            $$("#imgArea").attr("src", thePicture);
-          //  var smallImage = document.getElementById('imgArea');
-
-           // smallImage.style.display = 'block';
-
-           // smallImage.src = "data:image/jpeg;base64," + imageData;
+       
+        function clearCache() {
+            navigator.camera.cleanup();
         }
+
+        var retries = 0;
+        function onSuccess(fileURI) {
+
+            $$("#imgArea").attr("src", fileURI);
+            
+            var win = function (r) {
+                clearCache();
+                retries = 0;
+                alert('Done!');
+            }
+
+            var fail = function (error) {
+                if (retries == 0) {
+                    retries++
+                    setTimeout(function () {
+                        onSuccess(fileURI)
+                    }, 1000)
+                } else {
+                    retries = 0;
+                    clearCache();
+                    alert('Ups. Something wrong happens!');
+                }
+            }
+
+            var options = new FileUploadOptions();
+            options.fileKey = "uploadfile";
+            options.fileName = "tttyy6"; //  fileURI.substr(fileURI.lastIndexOf('/') + 1);
+            options.mimeType = "image/jpeg";
+            options.params = {}; // if we need to send parameters to the server request
+            var ft = new FileTransfer();
+            ft.upload(fileURI, encodeURI(upload_image), win, fail, options);
+        
+        }
+
+
+
     });
        
     $$("#btnCam22").click(function(data){
