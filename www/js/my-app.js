@@ -27,9 +27,9 @@ var mainView = myApp.addView('.view-main', {
     dynamicNavbar: true
 });
 
-/* 
+
 function onDeviceReady() {
-   alert("I am here6");
+/*    alert("I am here6");
       // $$("#btnTakePicture").click(function(data){
       console.log("HII");
       console.log("I am here");      
@@ -58,8 +58,8 @@ function onDeviceReady() {
 
   //}); 
 
-
-} */
+*/
+} 
 
 
 
