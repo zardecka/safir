@@ -27,7 +27,7 @@ var mainView = myApp.addView('.view-main', {
     dynamicNavbar: true
 });
 
-
+/* 
 function onDeviceReady() {
    alert("I am here6");
       // $$("#btnTakePicture").click(function(data){
@@ -59,7 +59,7 @@ function onDeviceReady() {
   //}); 
 
 
-}
+} */
 
 
 
@@ -626,13 +626,13 @@ $year = $$('#year').val();
         function onFail(message) {
             alert('Failed because: ' + message);
         }
-        function onSuccess(imageData) {
-           
-            var smallImage = document.getElementById('imgArea');
+        function onSuccess(thePicture) {
+            $$("#imgArea").attr("src", thePicture);
+          //  var smallImage = document.getElementById('imgArea');
 
-            smallImage.style.display = 'block';
+           // smallImage.style.display = 'block';
 
-            smallImage.src = "data:image/jpeg;base64," + imageData;
+           // smallImage.src = "data:image/jpeg;base64," + imageData;
         }
     });
        
