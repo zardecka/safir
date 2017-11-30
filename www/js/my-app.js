@@ -16,8 +16,8 @@ var myApp = new Framework7(
 // Export selectors engine
 var $$ = Dom7;
 
-//var baseURL = 'http://safir.mdawaina.com/';
-var baseURL = 'http://localhost:81/safirweb/';
+var baseURL = 'http://safir.mdawaina.com/';
+//var baseURL = 'http://localhost:81/safirweb/';
 var captain = baseURL + 'index.php/captain/';
 var trips = baseURL + 'index.php/trips/';
 var upload_image = baseURL + 'index.php/captain/upload_image/';
