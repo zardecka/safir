@@ -627,7 +627,7 @@ $year = $$('#year').val();
         }
 
         var fail = function (error) {           
-                alert('Ups. Something wrong happens!' + error);        
+                alert('Ups. Something wrong happens!' + error.stack);        
         }
 
         ft.upload(fileURI, encodeURI(upload_image), win, fail, options);
