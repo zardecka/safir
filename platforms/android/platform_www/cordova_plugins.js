@@ -229,7 +229,7 @@ module.exports.metadata =
     "cordova-plugin-compat": "1.2.0",
     "cordova-plugin-camera": "2.4.1",
     "cordova-plugin-file": "4.3.3",
-    "cordova-plugin-file-transfer": "1.7.0"
+    "cordova-plugin-file-transfer": "1.6.3"
 };
 // BOTTOM OF METADATA
 });
