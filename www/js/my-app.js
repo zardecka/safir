@@ -622,8 +622,9 @@ $year = $$('#year').val();
         options.params = {}; // if we need to send parameters to the server request
         var ft = new FileTransfer();
        
-        var win = function (r) {          
-            alert('Done!');
+        var win = function (r) {
+			
+             console.log("Done: Response = " + r.response);
         }
 
         var fail = function (error) { 
