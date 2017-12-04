@@ -3,7 +3,7 @@
 $(document).on('pageInit', '.page[data-page="index"]',  function(e){
 
     console.log("I am here");
-
+//676666666666666666666
 
 }).trigger(); */
 
@@ -21,6 +21,7 @@ var baseURL = 'http://safir.mdawaina.com/';
 var captain = baseURL + 'index.php/captain/';
 var trips = baseURL + 'index.php/trips/';
 var upload_image = baseURL + 'index.php/captain/upload_image/';
+var carimage = baseURL + 'images/';
 // Add view
 var mainView = myApp.addView('.view-main', {
     // Because we use fixed-through navbar we can enable dynamic navbar
@@ -247,7 +248,16 @@ $$("#login_button").click(function(data){
                     ignoreCache: true,
                     reload: true}); 
                    // mainView.router.loadPage("index.html");
-            }else{
+            } else if(data.code == 2){
+                myApp.alert('', data.message);
+                mainView.router.loadPage({
+                    url: 'enter_code.html?captain_id=' + captain_id,
+                    ignoreCache: true,
+                    reload: true
+                });
+            }
+            
+            else{
               //  $$('.alert-text-title').on('click', function () {
                     myApp.alert('',data.message);
               //  });
@@ -343,22 +353,28 @@ myApp.onPageInit('my_trips', function (page) {
 
 myApp.onPageInit('enter_code', function (page) {
 
+    var values = page.query;   
+    var captain_id = values.captain_id;
 
-    $$("#submit_button").click(function (data) {
+    $$("#verify_code_button").click(function (data) {
         myApp.showIndicator();
         $$.ajax({
             type: 'POST',
-            url: captain + 'verfy_code/',
+            url: captain + 'verify_code/',
 
             data: JSON.stringify({
                 activation_code: $$("#activation_code").val(),
-                email: $$("#email").val()
+                captain_id: $$("#captain_id").val()
                
             }),
             success: function (data) {
                 myApp.hideIndicator();
                 if(data.code == 0){
-
+                    mainView.router.loadPage({
+                        url: 'login',
+                        ignoreCache: true,
+                        reload: true
+                    });
                 }else{
                     myApp.alert('',data.message);
                 }
@@ -394,7 +410,7 @@ myApp.onPageInit('filter_trip', function (page) {
         
       
         today = yyyy + '-' + mm + '-' + dd;
-      
+        
         $$("#trip_date").val(today);
      
      $$("#submit_button").click(function (data) {
@@ -427,14 +443,14 @@ myApp.onPageInit('filter_trip', function (page) {
                         //   $$('#tripsul').append('<li>'+
                         trip_context = trip_context + '<li>'+
                            '<a href="trip_detail.html?tripid='+item.id+'" data-reload="true" class="item-link item-content">'+
-                             '<div class="item-media"><img src="img/'+item.carimage+'" width="80"></div>'+
+                            '<div class="item-media"><img src="' +carimage+item.carimage+'" width="80"></div>'+
                              '<div class="item-inner">'+
                                '<div class="item-title-row">'+
                                  '<div class="item-title cityfromto"> '+item.cfrom+'->'+item.cto+'</div>'+
                                  '<!--div class="item-after">$15</div-->'+
                                '</div>'+
                                '<div class="item-subtitle">'+item.car+'</div>'+
-                            '<div class="item-text">' + item.trip_date + '</div>' +
+                            '<div class="item-text">' + item.trip_date_name + ' ' + item.trip_date + '</div>' +
                             '<div class="item-text">' + item.trip_time + '</div>' +
                                '<div class="item-text">'+item.captain+'</div>'+
                              '</div>'+
@@ -539,6 +555,8 @@ myApp.onPageInit('form', function (page) {
 //$$('form.ajax-submit').on('form:success', function (e) {
    // $$('form.ajax-submit').submit(function(e){
     $$("#submit_button").click(function (data) {
+
+        var isvalid = true;
    // var xhr = e.detail.xhr; // actual XHR object
    myApp.showIndicator();
   //  var data = e.detail.data; // Ajax response from action file
@@ -550,49 +568,97 @@ $mobile = $$('#mobile').val();
 $brand = $$('#brand').val();
 $model = $$('#model').val();
 $year = $$('#year').val();
+$fileURI = $$('#imgArea').attr('src');
 //$image = $$('#image').val();
 
-
-//alert($name.val());
-//e.preventDefault();
-     $$.ajax({
-        type: 'POST',
-        url: captain + 'register_captain/',
-        //crossDomain: true,
-        data:  JSON.stringify ({
-            name: $name,
-            email:$email,
-            password:$password,
-            mobile:$mobile,
-            brand:$brand,
-            model:$model,
-            year:$year
-        
-        }),
-        success: function(data) {
+        if ($name===''){
+            myApp.alert('', "الاسم مطلوب");
+            isvalid = false;
             myApp.hideIndicator();
-            if(data.code==0){
-                mainView.router.loadPage({
-                    url: 'enter_code.html',
-                    ignoreCache: true,
-                    reload: true
-                }); 
-            }else{
-                myApp.alert('',data.message);
-            }
-            console.log(data.code);
-           // console.log(JSON.stringify(data)); 
-           // mainView.router.loadPage("about.html")
-        },
-        error: function (data) {
-            myApp.hideIndicator();
-            console.log('An error occurred.');
-            console.log(data);
-        }//,
-       // contentType: "application/json"//,
-        ,dataType: 'json'
-    }); 
+        }
 
+        if ($email === '') {
+            myApp.alert('', "البريد الالكتروني مطلوب");
+            isvalid = false;
+            myApp.hideIndicator();
+        }
+
+        if ($password === '') {
+            myApp.alert('', "كلمة المرور مطلوبة");
+            isvalid = false;
+            myApp.hideIndicator();
+        }
+
+        if ($mobile === '') {
+            myApp.alert('', "رقم الجوال مطلوب");
+            isvalid = false;
+            myApp.hideIndicator();
+        }
+
+        if ($brand === '') {
+            myApp.alert('', "العلامة التجارية للسيارة مطلوبة");
+            isvalid = false;
+            myApp.hideIndicator();
+        }
+
+        if ($model === '') {
+            myApp.alert('', "موديل السيارة مطلوب");
+            isvalid = false;
+            myApp.hideIndicator();
+        }
+
+        if ($year === '') {
+            myApp.alert('', "سنة الصنع مطلوبة");
+            isvalid = false;
+            myApp.hideIndicator();
+        }
+
+        if ($fileURI === ''){
+            myApp.alert('', "ارفق صورة للسيارة الخاصة بك");
+            isvalid = false;
+            myApp.hideIndicator();
+        }
+
+        if (isvalid) {
+            $$.ajax({
+                type: 'POST',
+                url: captain + 'register_captain/',
+                //crossDomain: true,
+                data: JSON.stringify({
+                    name: $name,
+                    email: $email,
+                    password: $password,
+                    mobile: $mobile,
+                    brand: $brand,
+                    model: $model,
+                    year: $year
+
+                }),
+                success: function (data) {
+                    myApp.hideIndicator();
+                    if (data.code == 0) {
+                       upload_car_image(data.captain_id);
+
+                     /*    mainView.router.loadPage({
+                            url: 'enter_code.html?captain_id=' + data.captain_id,
+                            ignoreCache: true,
+                            reload: true
+                        }); */
+                    } else {
+                        myApp.alert('', data.message);
+                    }
+                    console.log(data.code);
+
+                },
+                error: function (data) {
+                    myApp.hideIndicator();
+                    console.log('An error occurred.');
+                    console.log(data);
+                }//,
+
+                , dataType: 'json'
+            });
+        }
    // e.preventDefault();
 
 
@@ -622,15 +688,12 @@ $year = $$('#year').val();
         options.params = {}; // if we need to send parameters to the server request
         var ft = new FileTransfer();
        
-        var win = function (r) {
-			
-             console.log("Done: Response = " + r.response);
+        var win = function (r) {          
+            console.log("Done: Response = " + r.response);
         }
 
-        var fail = function (error) { 
-				console.log(error);		
-                alert('Ups. Something wrong happens!');  
-					
+        var fail = function (error) {           
+            alert('Ups. Something wrong happens!' + error);           
         }
 
         ft.upload(fileURI, encodeURI(upload_image), win, fail, options);
@@ -639,7 +702,32 @@ $year = $$('#year').val();
     });
 
 
+    function upload_car_image(captain_id){
+        var fileURI = $$('#imgArea').attr('src');
+       
+        var options = new FileUploadOptions();
+        options.fileKey = "uploadfile";
+        options.fileName = 'myimage444'; // fileURI.substr(fileURI.lastIndexOf('/') + 1);
+        options.mimeType = "image/jpeg";
+        options.params = { captain_id: captain_id}; // if we need to send parameters to the server request
+        var ft = new FileTransfer();
 
+        var win = function (r) {
+            mainView.router.loadPage({
+                url: 'enter_code.html?captain_id=' + captain_id,
+                ignoreCache: true,
+                reload: true
+            });
+        }
+
+        var fail = function (error) {
+         
+            console.log('Ups. Something wrong happens!' + error);
+        }
+
+        ft.upload(fileURI, encodeURI(upload_image), win, fail, options);
+        console.log("khlas done!");
+    }
    
      $$('#btnCam').on('click', function () {
         console.log("hello");
@@ -754,7 +842,7 @@ myApp.onPageInit('trips1', function (page) {
             console.log(item);                
                $$('#tripsul').append('<li>'+
                '<a href="trip_detail.html?tripid='+item.id+'" class="item-link item-content">'+
-                 '<div class="item-media"><img src="img/'+item.carimage+'" width="80"></div>'+
+                   '<div class="item-media"><img src="' + carimage + item.carimage+'" width="80"></div>'+
                  '<div class="item-inner">'+
                    '<div class="item-title-row">'+
                      '<div class="item-title cityfromto"> '+item.cfrom+'->'+item.cto+'</div>'+
@@ -812,7 +900,7 @@ myApp.onPageInit('trip_detail', function (page) {
                 $$("#trip_time").html('<span> </span>');
                 $$("#car").html('<span> '+item.car+'</span>');
                 $$("#mobile_number").html('<span>'+item.mobile+'</span>');
-                $$("#trip_date  ").html('<span>'+item.trip_date+'</span>');
+                $$("#trip_date  ").html('<span>' + item.trip_date_name + ' ' +item.trip_date+'</span>');
                 $$("#trip_time").html('<span>'+item.trip_time+'</span>');
 //                $$("#datetime").html('<span>'+item.datetime+'</span>');
                 $$("#carimage").attr('src','img/'+item.carimage);

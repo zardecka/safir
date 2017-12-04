@@ -101,7 +101,7 @@ a.panel-item {
 	display: block;
 	width: 100%;
 	height: 100%;
-	background-image: url(../img/redcar.jpg) !important;
+	background-image: url(../img/left-panel.jpg) !important;
 	background-size: cover;
 	background-position: center;
 }
@@ -115,7 +115,7 @@ a.panel-item {
 	display: block;
 	width: 100%;
 	height: 100%;
-	background-image: url(../img/indexbg.jpg) !important;
+	background-image: url(../img/white-bg.jpg) !important;
 	background-size: cover;
 	background-position: center;
 }
@@ -156,4 +156,9 @@ a.panel-item {
 		   position: absolute;
 		   left: 0;
 		   color: gold;
-		}
+    }
+    
+
+    a.panel-item{
+      color: #2196f3;
+    }
