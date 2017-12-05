@@ -18,10 +18,16 @@
         },
         "cordova-plugin-file-transfer": {
             "PACKAGE_NAME": "com.phonegap.safir"
+        },
+        "cordova-plugin-x-socialsharing": {
+            "PACKAGE_NAME": "com.phonegap.safir"
         }
     },
     "dependent_plugins": {
         "cordova-plugin-compat": {
+            "PACKAGE_NAME": "com.phonegap.safir"
+        },
+        "es6-promise-plugin": {
             "PACKAGE_NAME": "com.phonegap.safir"
         }
     }

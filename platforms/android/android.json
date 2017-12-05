@@ -27,6 +27,10 @@
                         {
                             "xml": "<feature name=\"FileTransfer\"><param name=\"android-package\" value=\"org.apache.cordova.filetransfer.FileTransfer\" /></feature>",
                             "count": 1
+                        },
+                        {
+                            "xml": "<feature name=\"SocialSharing\"><param name=\"android-package\" value=\"nl.xservices.plugins.SocialSharing\" /></feature>",
+                            "count": 1
                         }
                     ]
                 }
@@ -36,12 +40,18 @@
                     "/*": [
                         {
                             "xml": "<uses-permission android:name=\"android.permission.WRITE_EXTERNAL_STORAGE\" />",
-                            "count": 3
+                            "count": 4
                         }
                     ],
                     "application": [
                         {
                             "xml": "<provider android:authorities=\"${applicationId}.provider\" android:exported=\"false\" android:grantUriPermissions=\"true\" android:name=\"android.support.v4.content.FileProvider\"><meta-data android:name=\"android.support.FILE_PROVIDER_PATHS\" android:resource=\"@xml/provider_paths\" /></provider>",
+                            "count": 1
+                        }
+                    ],
+                    "/manifest/application": [
+                        {
+                            "xml": "<provider android:authorities=\"${applicationId}.sharing.provider\" android:exported=\"false\" android:grantUriPermissions=\"true\" android:name=\"nl.xservices.plugins.FileProvider\"><meta-data android:name=\"android.support.FILE_PROVIDER_PATHS\" android:resource=\"@xml/sharing_paths\" /></provider>",
                             "count": 1
                         }
                     ]
@@ -63,6 +73,12 @@
             "PACKAGE_NAME": "com.phonegap.safir"
         },
         "cordova-plugin-file-transfer": {
+            "PACKAGE_NAME": "com.phonegap.safir"
+        },
+        "es6-promise-plugin": {
+            "PACKAGE_NAME": "com.phonegap.safir"
+        },
+        "cordova-plugin-x-socialsharing": {
             "PACKAGE_NAME": "com.phonegap.safir"
         }
     },
@@ -288,6 +304,20 @@
             "clobbers": [
                 "window.FileTransfer"
             ]
+        },
+        {
+            "id": "es6-promise-plugin.Promise",
+            "file": "plugins/es6-promise-plugin/www/promise.js",
+            "pluginId": "es6-promise-plugin",
+            "runs": true
+        },
+        {
+            "id": "cordova-plugin-x-socialsharing.SocialSharing",
+            "file": "plugins/cordova-plugin-x-socialsharing/www/SocialSharing.js",
+            "pluginId": "cordova-plugin-x-socialsharing",
+            "clobbers": [
+                "window.plugins.socialsharing"
+            ]
         }
     ],
     "plugin_metadata": {
@@ -295,6 +325,8 @@
         "cordova-plugin-compat": "1.2.0",
         "cordova-plugin-camera": "2.4.1",
         "cordova-plugin-file": "4.3.3",
-        "cordova-plugin-file-transfer": "1.6.3"
+        "cordova-plugin-file-transfer": "1.6.3",
+        "es6-promise-plugin": "4.1.0",
+        "cordova-plugin-x-socialsharing": "5.2.1"
     }
 }

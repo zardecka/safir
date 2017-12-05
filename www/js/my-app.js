@@ -81,6 +81,13 @@ myApp.onPageInit('about', function (page) {
    console.log("after");
    // Do something here when page with data-page="about" attribute loaded and initialized
   })   */ 
+
+
+
+
+
+
+
 myApp.onPageInit('index', function (page) {
 
 
@@ -117,7 +124,7 @@ myApp.onPageInit('index', function (page) {
         $$(".list-block>ul.guest_menu").hide();
 
         mainView.router.loadPage({
-            url: 'my_trips.html',
+            url: 'new_trip.html',
             ignoreCache: true,
             reload: true});
         
@@ -147,6 +154,30 @@ myApp.onPageInit('index', function (page) {
     
    });  */
 
+
+
+  $$(document).on("click","#close-panel" , function(){
+
+       var options = {
+           message: 'حمل تطبيق سافر واستمتع بتجربة سفر مميزة!', // not supported on some apps (Facebook, Instagram)
+           subject: 'مشاركة التطبيق', // fi. for email
+           files: ['', ''], // an array of filenames either locally or remotely
+           url: 'https://www.website.com/foo/#bar?a=b',
+           chooserTitle: 'Pick an app' // Android only, you can override the default share sheet title
+       }
+
+       var onSuccess = function (result) {
+           console.log("Share completed? " + result.completed); // On Android apps mostly return false even while it's true
+           console.log("Shared to app: " + result.app); // On Android result.app is currently empty. On iOS it's empty when sharing is cancelled (result.completed=false)
+       }
+
+       var onError = function (msg) {
+           console.log("Sharing failed with message: " + msg);
+       }
+
+       window.plugins.socialsharing.shareWithOptions(options, onSuccess, onError);
+
+   });
 
    $$(document).on("click",".list-block>ul.captain_menu>.logout", function() {
         window.localStorage.setItem("loggedIn", 0);
@@ -244,7 +275,7 @@ $$("#login_button").click(function(data){
                 
                 myApp.removeFromCache('login.html');
                  mainView.router.loadPage({
-                     url: 'my_trips.html',
+                     url: 'new_trip.html',
                     ignoreCache: true,
                     reload: true}); 
                    // mainView.router.loadPage("index.html");
@@ -282,17 +313,7 @@ $$("#login_button").click(function(data){
 
 
 myApp.onPageInit('my_trips', function (page) {
-    if (window.localStorage.getItem("loggedIn") == 1) {
-       
-        $$(".list-block>ul.captain_menu").show();
-        $$(".list-block>ul.guest_menu").hide();
-
-    }
-    else {
-        $$(".list-block>ul.captain_menu").hide();
-        $$(".list-block>ul.guest_menu").show();
-
-    }
+  
    // alert("I am here2");
         $$.ajax({
             type: 'POST',
@@ -314,7 +335,7 @@ myApp.onPageInit('my_trips', function (page) {
                            $$('#tripsul').append('<li>'+
                       //  trip_context = trip_context + '<li>' +
                             '<a href="trip_detail.html?tripid=' + item.id + '" data-reload="true" class="item-link item-content">' +
-                            '<div class="item-media"><img src="img/' + item.carimage + '" width="80"></div>' +
+                               '<div class="item-media"><img src="img/' + carimage + item.carimage + '" width="80"></div>' +
                             '<div class="item-inner">' +
                             '<div class="item-title-row">' +
                             '<div class="item-title cityfromto"> ' + item.cfrom + '->' + item.cto + '</div>' +
@@ -352,7 +373,7 @@ myApp.onPageInit('my_trips', function (page) {
     });
 
 myApp.onPageInit('enter_code', function (page) {
-
+   // alert("hello");
     var values = page.query;   
     var captain_id = values.captain_id;
 
@@ -418,7 +439,7 @@ myApp.onPageInit('filter_trip', function (page) {
         $trimp_from = $$('#tfrom').val();
         $trip_to = $$('#tto').val();
         $trip_date = $$('#trip_date').val();
-
+        $ttime = $$('#ttime').val();
         $$.ajax({
             type: 'POST',
             url: trips + 'filter_trip/',
@@ -426,7 +447,8 @@ myApp.onPageInit('filter_trip', function (page) {
             data:  JSON.stringify ({
                 tfrom: $trimp_from,
                 tto:$trip_to,
-                trip_date:$trip_date  
+                trip_date:$trip_date,
+                ttime:$ttime
             }),
             success: function(data) {
               
@@ -483,6 +505,15 @@ myApp.onPageInit('filter_trip', function (page) {
 
 
 myApp.onPageInit('new_trip', function (page) {
+
+    if (window.localStorage.getItem("loggedIn") == 1) {
+        $$(".list-block>ul.captain_menu").show();
+        $$(".list-block>ul.guest_menu").hide();
+    }
+    else {
+        $$(".list-block>ul.captain_menu").hide();
+        $$(".list-block>ul.guest_menu").show();
+    }
 
     var today = new Date();
     var dd = today.getDate();
@@ -739,6 +770,7 @@ $fileURI = $$('#imgArea').attr('src');
              mediaType: Camera.MediaType.PICTURE,
              targetWidth: 600,
              targetHeight: 400,
+             correctOrientation: true,
              // sourceType: navigator.camera.PictureSourceType.PHOTOLIBRARY // not originally included
              sourceType: Camera.PictureSourceType.CAMERA //Camera.PictureSourceType.PHOTOLIBRARY,
          }
@@ -903,7 +935,7 @@ myApp.onPageInit('trip_detail', function (page) {
                 $$("#trip_date  ").html('<span>' + item.trip_date_name + ' ' +item.trip_date+'</span>');
                 $$("#trip_time").html('<span>'+item.trip_time+'</span>');
 //                $$("#datetime").html('<span>'+item.datetime+'</span>');
-                $$("#carimage").attr('src','img/'+item.carimage);
+                $$("#carimage").attr('src',carimage+item.carimage);
                // console.log(item.carimage);
             },
             error: function (data) {
@@ -969,7 +1001,7 @@ myApp.onPageInit('captain_profile', function (page) {
             $$("#brand").val(resp.captain_data.brand);
             $$("#model").val(resp.captain_data.model);
             $$("#year").val(resp.captain_data.year);
-          //  $$("#image").val(resp.captain_data.name);
+            $$("#imgArea").src(carimage + resp.captain_data.image);
            
         },
         error: function (data) {
