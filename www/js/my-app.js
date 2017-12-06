@@ -987,7 +987,9 @@ myApp.onPageInit('captain_profile', function (page) {
 
     myApp.showIndicator();
 
-    $$.ajax({
+    var isValid = true;
+    $$.ajax
+    ({
         type: 'POST',
         url: captain + 'captain_profile/', // + captain_id,
         data: JSON.stringify({ captain_id: window.localStorage.getItem("captain_id")}),        
@@ -1030,14 +1032,101 @@ myApp.onPageInit('captain_profile', function (page) {
         $$(".update-butonn-to-be-here").html('<p><a href="#" class="button button-fill color-green update-profile">تحديث</a></p>');
     });
 
-   
+    $$('#btnCamEdit').on('click', function () {
+        console.log("hello");
+
+        var options = {
+            quality: 50,
+            destinationType: Camera.DestinationType.FILE_URI,
+            encodingType: Camera.EncodingType.JPEG,
+            mediaType: Camera.MediaType.PICTURE,
+            targetWidth: 600,
+            targetHeight: 400,
+            correctOrientation: true,
+            // sourceType: navigator.camera.PictureSourceType.PHOTOLIBRARY // not originally included
+            sourceType: Camera.PictureSourceType.CAMERA //Camera.PictureSourceType.PHOTOLIBRARY,
+        }
+        navigator.camera.getPicture(onSuccess, onFail, options);
+
+        function onFail(message) {
+            alert('Failed because: ' + message);
+        }
+
+        function clearCache() {
+            navigator.camera.cleanup();
+        }
+
+        var retries = 0;
+        function onSuccess(fileURI) {
+
+            $$("#imgArea").attr("src", fileURI);
+
+            var win = function (r) {
+                clearCache();
+                retries = 0;
+                alert('Done!');
+            }
+
+            var fail = function (error) {
+                if (retries == 0) {
+                    retries++
+                    setTimeout(function () {
+                        onSuccess(fileURI)
+                    }, 1000)
+                } else {
+                    retries = 0;
+                    clearCache();
+                    alert('Ups. Something wrong happens!');
+                }
+            }
+
+            var options = new FileUploadOptions();
+            options.fileKey = "uploadfile";
+            options.fileName = "tttyy6"; //  fileURI.substr(fileURI.lastIndexOf('/') + 1);
+            options.mimeType = "image/jpeg";
+            options.params = {}; // if we need to send parameters to the server request
+            var ft = new FileTransfer();
+            ft.upload(fileURI, encodeURI(upload_image), win, fail, options);
+
+        }
+
+
+
+    });
+
+    function update_car_image(captain_id) {
+        var fileURI = $$('#imgArea').attr('src');
+
+        var options = new FileUploadOptions();
+        options.fileKey = "uploadfile";
+        options.fileName = 'myimage444'; // fileURI.substr(fileURI.lastIndexOf('/') + 1);
+        options.mimeType = "image/jpeg";
+        options.params = { captain_id: captain_id }; // if we need to send parameters to the server request
+        var ft = new FileTransfer();
+
+        var win = function (r) {
+            mainView.router.loadPage({
+                url: 'captain_profile.html',
+                ignoreCache: true,
+                reload: true
+            }); 
+        }
+
+        var fail = function (error) {
+
+            console.log('Ups. Something wrong happens!' + error);
+        }
+
+        ft.upload(fileURI, encodeURI(upload_image), win, fail, options);
+        console.log("khlas done!");
+    }
 
     //do the update
 
     $$(document).on('click', '.update-profile', function () {
-        
+
         myApp.showIndicator();
-        
+        $captain_id = window.localStorage.getItem("captain_id");
         $name = $$('#name').val();
         $email = $$('#email').val();
         $password = $$('#password').val();
@@ -1045,13 +1134,65 @@ myApp.onPageInit('captain_profile', function (page) {
         $brand = $$('#brand').val();
         $model = $$('#model').val();
         $year = $$('#year').val();
-       
+
+        var isValid = true;
+
+        if ($name === '') {
+            myApp.alert('', "الاسم مطلوب");
+            isvalid = false;
+            myApp.hideIndicator();
+        }
+
+        if ($email === '') {
+            myApp.alert('', "البريد الالكتروني مطلوب");
+            isvalid = false;
+            myApp.hideIndicator();
+        }
+
+        if ($password === '') {
+            myApp.alert('', "كلمة المرور مطلوبة");
+            isvalid = false;
+            myApp.hideIndicator();
+        }
+
+        if ($mobile === '') {
+            myApp.alert('', "رقم الجوال مطلوب");
+            isvalid = false;
+            myApp.hideIndicator();
+        }
+
+        if ($brand === '') {
+            myApp.alert('', "العلامة التجارية للسيارة مطلوبة");
+            isvalid = false;
+            myApp.hideIndicator();
+        }
+
+        if ($model === '') {
+            myApp.alert('', "موديل السيارة مطلوب");
+            isvalid = false;
+            myApp.hideIndicator();
+        }
+
+        if ($year === '') {
+            myApp.alert('', "سنة الصنع مطلوبة");
+            isvalid = false;
+            myApp.hideIndicator();
+        }
+
+       /*  if ($fileURI === '') {
+            myApp.alert('', "ارفق صورة للسيارة الخاصة بك");
+            isvalid = false;
+            myApp.hideIndicator();
+        } */
+
+      
+       if(isvalid){
         $$.ajax({
             type: 'POST',
             url: captain + 'update_captain/',
             
             data: JSON.stringify({
-                id: window.localStorage.getItem("captain_id"),
+                id: $captain_id,
                 name: $name,
                 email: $email,
                 password: $password,
@@ -1064,11 +1205,9 @@ myApp.onPageInit('captain_profile', function (page) {
             success: function (data) {
                 myApp.hideIndicator();
                 if(data.code == 0){
-                    mainView.router.loadPage({
-                        url: 'captain_profile.html',
-                        ignoreCache: true,
-                        reload: true
-                    }); 
+
+                    update_car_image($captain_id);
+                   
                 }
                 console.log(data.code);                
             },
@@ -1080,7 +1219,7 @@ myApp.onPageInit('captain_profile', function (page) {
             
             , dataType: 'json'
         });
-
+    }
    // e.preventDefault();
 
 
