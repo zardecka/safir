@@ -335,7 +335,7 @@ myApp.onPageInit('my_trips', function (page) {
                            $$('#tripsul').append('<li>'+
                       //  trip_context = trip_context + '<li>' +
                             '<a href="trip_detail.html?tripid=' + item.id + '" data-reload="true" class="item-link item-content">' +
-                               '<div class="item-media"><img src="img/' + carimage + item.carimage + '" width="80"></div>' +
+                               '<div class="item-media"><img src="' + carimage + item.carimage + '" width="80"></div>' +
                             '<div class="item-inner">' +
                             '<div class="item-title-row">' +
                             '<div class="item-title cityfromto"> ' + item.cfrom + '->' + item.cto + '</div>' +
@@ -987,7 +987,7 @@ myApp.onPageInit('captain_profile', function (page) {
 
     myApp.showIndicator();
 
-    var isValid = true;
+   
     $$.ajax
     ({
         type: 'POST',
@@ -1135,7 +1135,7 @@ myApp.onPageInit('captain_profile', function (page) {
         $model = $$('#model').val();
         $year = $$('#year').val();
 
-        var isValid = true;
+        var isvalid = true;
 
         if ($name === '') {
             myApp.alert('', "الاسم مطلوب");
