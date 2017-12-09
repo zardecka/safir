@@ -1083,11 +1083,13 @@ myApp.onPageInit('captain_profile', function (page) {
         var ft = new FileTransfer();
 
         var win = function (r) {
-            mainView.router.loadPage({
+           /*  mainView.router.loadPage({
                 url: 'captain_profile.html',
                 ignoreCache: true,
                 reload: true
-            }); 
+            });  */
+
+            console.log('ppp'+captain_id);
         }
 
         var fail = function (error) {
