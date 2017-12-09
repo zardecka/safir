@@ -368,6 +368,7 @@ myApp.onPageInit('enter_code', function (page) {
             success: function (data) {
                 myApp.hideIndicator();
                 if(data.code == 0){
+                    myApp.alert('', "تم تنشيط حسابك، فضلا سجل الدخول");
                     mainView.router.loadPage({
                         url: 'login.html',
                         ignoreCache: true,
@@ -1009,7 +1010,7 @@ myApp.onPageInit('captain_profile', function (page) {
         $$(".update-butonn-to-be-here").html('<p><a href="#" class="button button-fill color-green update-profile">تحديث</a></p>');
     });
 
-    $$('#btnCamEdit').on('click', function () {
+    $$('#imgArea').on('click', function () {
         console.log("hello");
 
         var options = {
