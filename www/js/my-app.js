@@ -30,39 +30,16 @@ var mainView = myApp.addView('.view-main', {
 
 
 function onDeviceReady() {
-/*    alert("I am here6");
-      // $$("#btnTakePicture").click(function(data){
-      console.log("HII");
-      console.log("I am here");      
-        var options = {
-            quality: 50,
-            destinationType: Camera.DestinationType.FILE_URI,
-            encodingType: Camera.EncodingType.JPEG,
-            mediaType: Camera.MediaType.PICTURE,
-            targetWidth: 600,
-            targetHeight: 400,
-           // sourceType: navigator.camera.PictureSourceType.PHOTOLIBRARY // not originally included
-            sourceType: Camera.PictureSourceType.CAMERA //Camera.PictureSourceType.PHOTOLIBRARY,
-        }  
-        navigator.camera.getPicture(onSuccess, onFail, options);
-    
-        
-    function onSuccess(thePicture) {
-        alert("Picture Uploaded");      
-       $$("#imgArea").attr("src", thePicture);
-    }
-        
-    function onFail(e) {
-        alert("Image failed: " + e.message);
-    }
-
-
-  //}); 
-
-*/
+    document.addEventListener("backbutton", onBackKeyDown, false);
 } 
 
-
+function onBackKeyDown() {
+    mainView.router.loadPage({
+        url: 'index.html',
+        ignoreCache: true,
+        reload: true
+    });
+}
 
 // Callbacks to run specific code for specific pages, for example for About page:
 myApp.onPageInit('about', function (page) {
@@ -110,7 +87,7 @@ myApp.onPageInit('index', function (page) {
     // run createContentPage func after link was clicked
   // var db = window.openDatabase("users","1.0","SafirDB",200000);
    //saveData();
-  // onDeviceReady();
+
 
 //window.sessionStorage
   if(window.localStorage.getItem("loggedIn") == 1) {
@@ -1341,20 +1318,7 @@ myApp.onPageInit('rating', function (page) {
 
 });
 
-/*     //upload car image to the server 
-    function onDeviceReady() {
-        
-        // Retrieve image file location from specified source
-        navigator.camera.getPicture(uploadPhoto,function(message) {
-             alert('get picture failed'); },
-            { quality: 50, 
-            destinationType: navigator.camera.DestinationType.FILE_URI,
-            sourceType: navigator.camera.PictureSourceType.PHOTOLIBRARY
-            //sourceType: navigator.camera.PictureSourceType.CAMERA
-            });
 
-    }
- */
     function uploadPhoto(imageURI) {
         var options = new FileUploadOptions();
         options.fileKey="file";
