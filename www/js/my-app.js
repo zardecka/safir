@@ -259,7 +259,7 @@ $$("#login_button").click(function(data){
             } else if(data.code == 2){
                 myApp.alert('', data.message);
                 mainView.router.loadPage({
-                    url: 'enter_code.html?captain_id=' + captain_id,
+                    url: 'enter_code.html?captain_id=' + data.captain_id,
                     ignoreCache: true,
                     reload: true
                 });
@@ -369,7 +369,7 @@ myApp.onPageInit('enter_code', function (page) {
                 myApp.hideIndicator();
                 if(data.code == 0){
                     mainView.router.loadPage({
-                        url: 'login',
+                        url: 'login.html',
                         ignoreCache: true,
                         reload: true
                     });
@@ -769,7 +769,7 @@ $fileURI = $$('#imgArea').attr('src');
             var win = function (r) {
                 clearCache();
                 retries = 0;
-                alert('Done!');
+               // alert('Done!');
             }
 
             var fail = function (error) {
@@ -1041,7 +1041,7 @@ myApp.onPageInit('captain_profile', function (page) {
             var win = function (r) {
                 clearCache();
                 retries = 0;
-                alert('Done!');
+                //alert('Done!');
             }
 
             var fail = function (error) {

@@ -1,8 +1,8 @@
 <?xml version='1.0' encoding='utf-8'?>
 <widget id="com.phonegap.safir" version="1.0.0" xmlns="http://www.w3.org/ns/widgets" xmlns:gap="http://phonegap.com/ns/1.0">
-    <name>Safir</name>
+    <name>Safer</name>
     <description>
-        A blank PhoneGap app.
+        The Best way to travel arround the Kingdom.
     </description>
     <author email="mohameddawaina@gmail.com.com" href="http://mdawaina.com">
         Mohamed Dawaina
