@@ -1007,7 +1007,7 @@ myApp.onPageInit('captain_profile', function (page) {
 
        
         
-        $$(".update-butonn-to-be-here").html('<p><a href="#" class="button button-fill color-green update-profile">تحديث</a></p>');
+        $$(".update-butonn-to-be-here").html('<p><a href="#" class="button button-fill color-green" id="update_profile">تحديث</a></p>');
     });
 
     $$('#imgArea').on('click', function () {
@@ -1103,7 +1103,7 @@ myApp.onPageInit('captain_profile', function (page) {
 
     //do the update
 
-    $$(document).on('click', '.update-profile', function () {
+    $$(document).on('click', '#update_profile', function () {
 
         myApp.showIndicator();
         $captain_id = window.localStorage.getItem("captain_id");
