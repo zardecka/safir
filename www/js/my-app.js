@@ -133,14 +133,14 @@ myApp.onPageInit('index', function (page) {
 
 
 
-  $$(document).on("click","#close-panel" , function(){
+  $$(document).on("click","#share_app" , function(){
 
        var options = {
            message: 'حمل تطبيق سافر واستمتع بتجربة سفر مميزة!', // not supported on some apps (Facebook, Instagram)
            subject: 'مشاركة التطبيق', // fi. for email
            files: ['', ''], // an array of filenames either locally or remotely
            url: 'https://www.website.com/foo/#bar?a=b',
-           chooserTitle: 'Pick an app' // Android only, you can override the default share sheet title
+           chooserTitle: 'شارك التطبيق على ' // Android only, you can override the default share sheet title
        }
 
        var onSuccess = function (result) {
