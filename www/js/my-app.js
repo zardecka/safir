@@ -362,7 +362,7 @@ myApp.onPageInit('enter_code', function (page) {
 
             data: JSON.stringify({
                 activation_code: $$("#activation_code").val(),
-                captain_id: $$("#captain_id").val()
+                captain_id: captain_id
                
             }),
             success: function (data) {
