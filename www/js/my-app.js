@@ -10,7 +10,7 @@ $(document).on('pageInit', '.page[data-page="index"]',  function(e){
 
 // Initialize your app
 var myApp = new Framework7(
-    { material: true,}
+    { ios: true,}
 );
 
 // Export selectors engine
@@ -131,9 +131,36 @@ myApp.onPageInit('index', function (page) {
     
    });  */
 
+    //$$('.open-about').on('click', function () {
+  if (window.localStorage.getItem("agreed")===null){
+        myApp.popup('.popup-terms');
+  }
+   // });
 
+        $$('input[type=checkbox]').change(
+            function () {
 
-  $$(document).on("click","#share_app" , function(){
+                if($$('input[type=checkbox]:checked').length > 0)
+                {
+                    $$("#close_terms").removeAttr('disabled');//.prop("disabled", false);
+                  //  $$("#close_terms").attr("disabled", "");
+                    window.localStorage.setItem("agreed",true);
+
+                }else{
+                    $$("#close_terms").attr("disabled", "disabled");
+                    
+                }
+               /*  if (this.checked) {
+                    $$("#close_terms").removeAttr('disabled');//.prop("disabled", false);
+                    alert("checked");
+                    
+                }else{
+                    $$("#close_terms").Attr("disabled", "disabled");
+                    alert("unchecked");
+                } */
+            });
+
+  $$(document).on("click",".share_app" , function(){
 
        var options = {
            message: 'حمل تطبيق سافر واستمتع بتجربة سفر مميزة!', // not supported on some apps (Facebook, Instagram)
