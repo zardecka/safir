@@ -1,0 +1,164 @@
+@import url(http://fonts.googleapis.com/earlyaccess/droidarabickufi.css);
+
+
+body {
+    font-family:"Droid Arabic Kufi",serif;
+    margin: 0;
+    padding: 0;
+    color: #212121;
+    font-size: 14px;
+    line-height: 1.5;
+    width: 100%;
+    -webkit-text-size-adjust: 100%;
+    background: #fff;
+    overflow: hidden;
+  }
+
+
+  .cityfromto {
+   
+    font-size: 12px;
+    color:#849301;
+}
+
+.isfullclass{
+   font-size: 10px;
+    color:red;
+}
+
+
+.list-block {
+  margin: 32px 0;
+  font-size: 13px;
+}
+
+
+
+
+
+.navbar .center, .subnavbar .center {
+  font-size: 16px !important;
+  font-weight: 500;
+  text-align: center;
+  margin: 0 16px;
+  position: relative;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  line-height: 56px;
+  display: inline-block;
+  text-align: left;
+}
+
+
+.navbar {
+  left: 0;
+  top: 0;
+  height: 56px;
+  font-size: 16px !important;
+}
+
+
+div.divider222:before {
+  content: '';
+  position: absolute;
+  left: 0;
+  top: 0;
+  bottom: auto;
+  right: auto;
+  height: 1px;
+  width: 100%;
+  background-color: rgba(0, 0, 0, 0.12);
+  display: block;
+  z-index: 15;
+  -webkit-transform-origin: 50% 0%;
+  transform-origin: 50% 0%;
+}
+
+
+.divider {
+  display: block;
+  height: 1px;
+  border: 0;
+  /* border-top: 1px solid #ccc; */
+  background-color: rgba(0, 0, 0, 0.12);
+  margin: 1em 0;
+  padding: 0;
+}
+
+a.panel-item {
+    text-decoration: none;
+    color: #ffffff;
+}
+
+
+.background-image-holder:before{
+	content: "";
+	position: fixed;
+	left: 0;
+	right: 0;
+	z-index: -1;
+	display: block;
+	width: 100%;
+	height: 100%;
+	background-image: url(../img/left-panel.jpg) !important;
+	background-size: cover;
+	background-position: center;
+}
+
+.bg-image{
+	content: "";
+	position: fixed;
+	left: 0;
+	right: 0;
+	z-index: -1;
+	display: block;
+	width: 100%;
+	height: 100%;
+	background-image: url(../img/white-bg.jpg) !important;
+	background-size: cover;
+	background-position: center;
+}
+
+
+
+.circle{
+  color: #ffffff;
+  display: inline-block;
+  width: 120px;
+  height: 120px;
+  border-radius: 100%;
+  background-color: #2196f3;
+  line-height:120px;
+  vertical-align:center;
+  text-align:center;
+}
+
+
+
+.rating {
+		  unicode-bidi: bidi-override;
+		  direction: rtl;
+		  text-align: center;
+		}
+		.rating > span {
+		  display: inline-block;
+		  position: relative;
+		  width: 1.1em;
+		}
+		.rating > span:hover,
+		.rating > span:hover ~ span {
+		  color: transparent;
+		}
+		.rating > span:hover:before,
+		.rating > span:hover ~ span:before {
+		   content: "\2605";
+		   position: absolute;
+		   left: 0;
+		   color: gold;
+    }
+    
+
+    a.panel-item{
+      color: #2196f3;
+    }

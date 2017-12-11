@@ -1,0 +1,98 @@
+<!-- We don't need full layout here, because this page will be parsed with Ajax-->
+<!-- Top Navbar-->
+<div class="navbar">
+    <div class="navbar-inner">
+        <div class="left">
+            <a href="#" class="back link">
+                <i class="icon icon-back"></i>
+                <span></span>
+            </a>
+        </div>
+        <div class="center sliding">رمز التحقق  </div>
+        <div class="right">
+            <!-- Right link contains only icon - additional "icon-only" class-->
+            <a href="#" class="link icon-only open-panel">
+                <i class="icon icon-bars"></i>
+            </a>
+        </div>
+    </div>
+</div>
+<div class="pages">
+    <!-- Page, data-page contains page name-->
+    <div data-page="enter_code" class="page">
+        <!-- Scrollable page content-->
+        <div class="page-content">
+            <div class="content-block">
+
+
+
+
+
+                <div class="content-block-title">ادخل الرمز الذي تم ارساله في رسالة قصيرة</div>
+               
+
+
+                <form id="my-form" class="list-block">
+                    <div class="list-block">
+                        <ul>
+                            <!-- Text inputs -->
+                            <li>
+                                <div class="item-content">
+                                    <div class="item-media">
+                                        <i class="icon f7-icons">الرمز المرسل</i>
+                                    </div>
+                                    <div class="item-inner">
+                                        <div class="item-title label"></div>
+                                        <div class="item-input">
+                                            <input type="text" placeholder="الرمز المرسل" name="activation_code" id="activation_code">
+                                        </div>
+                                    </div>
+                                </div>
+                            </li>
+                        </ul>
+                    </div>
+                </form>
+                <input type="hidden" id="captain_id">
+                <div class="content-block">
+                    <a href="#" class="button button-fill color-green button-round mark-full" id="verify_code_button">ارسل</a>
+                </div>
+
+            </div>
+        </div>
+
+        <div class="popup popup-rating">
+            <div class="content-block">
+                <p>  
+                    تم ارسال رمز التحقق في رسالة قصيرة 
+                    <span id="selected-stars"></span>
+                </p>
+               
+                <span id="hidden-stars"></span>
+                <div class="list-block">
+                    <ul>
+                        <li>
+                            <div class="item-content">
+                               
+                                <div class="item-inner">
+                                    <div class="item-title label">ادخل الرمز المرسل </div>
+                                    <div class="item-input">
+                                       <input type="text" id="sent_code" >
+                                    </div>
+                                </div>
+                            </div>
+                        </li>
+                    </ul>
+                </div>
+                <div class="row">
+                    <div class="col-100">
+
+                        <a href="#" data-popup=".popup-rating" class="button button-fill color-red button-round close-popup">موافق</a>
+
+                    </div>
+
+                </div>
+            </div>
+        </div>
+
+    </div>
+</div>

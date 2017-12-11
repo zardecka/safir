@@ -1,0 +1,179 @@
+<!-- We don't need full layout here, because this page will be parsed with Ajax-->
+<!-- Top Navbar-->
+<div class="navbar">
+    <div class="navbar-inner">
+        <div class="left">
+            <a href="my_trips.html" class="back link">
+                <i class="icon icon-back"></i>
+                <span></span>
+            </a>
+        </div>
+        <div class="center sliding">الملف الشخصي</div>
+        <div class="right">
+            <!-- Right link contains only icon - additional "icon-only" class-->
+            <a href="#" class="link icon-only open-panel">
+                <i class="icon icon-bars"></i>
+            </a>
+        </div>
+    </div>
+</div>
+<div class="pages">
+    <!-- Page, data-page contains page name-->
+    <div data-page="captain_profile" class="page">
+        <!-- Scrollable page content-->
+        <div class="page-content">
+            <div class="content-block-title"> الملف الشخصي</div>
+            <form id="my-form" class="ajax-submit" method="post" action="#">
+                <div class="list-block">
+                    <ul>
+                        <li>
+                            <div class="item-content">
+                                <div class="item-inner">
+                                    <div class="item-title label">الاسم</div>
+                                    <div class="item-input">
+                                        <input type="text" placeholder=" اسمك" name="name" id="name" disabled />
+                                    </div>
+                                </div>
+                            </div>
+                        </li>
+                        <li>
+                            <div class="item-content">
+                                <div class="item-inner">
+                                    <div class="item-title label">البريد الاكتروني</div>
+                                    <div class="item-input">
+                                        <input type="email" placeholder="بريدك الالكتروني" name="email" id="email" disabled/>
+                                    </div>
+                                </div>
+                            </div>
+                        </li>
+
+                        <li>
+                            <div class="item-content">
+                                <div class="item-inner">
+                                    <div class="item-title label">كلمة المرور</div>
+                                    <div class="item-input">
+                                        <input type="password" placeholder="كلمة المرور" name="passowrd" id="password" disabled />
+                                    </div>
+                                </div>
+                            </div>
+                        </li>
+
+                        <li>
+                            <div class="item-content">
+                                <div class="item-inner">
+                                    <div class="item-title label">رقم الجوال</div>
+                                    <div class="item-input">
+                                        <input type="number" placeholder="05xxxxxxxx" name="mobile" id="mobile" value="" maxlength="8" disabled />
+                                    </div>
+                                </div>
+                            </div>
+                        </li>
+
+
+                        <li>
+                            <div class="item-content">
+                                <div class="item-inner">
+                                    <div class="item-title label">العلامة التجارية للسيارة</div>
+                                    <div class="item-input">
+                                        <input type="text" placeholder="العلامة التجارية للسيارة" name="brand" id="brand" disabled/>
+                                    </div>
+                                </div>
+                            </div>
+                        </li>
+
+
+
+                        <li>
+                            <div class="item-content">
+                                <div class="item-inner">
+                                    <div class="item-title label"> اسم السيارة </div>
+                                    <div class="item-input">
+                                        <input type="text" placeholder=" اسم السيارة  " name="model" id="model" disabled/>
+                                    </div>
+                                </div>
+                            </div>
+                        </li>
+
+
+                        <li>
+                            <div class="item-content">
+                                <div class="item-inner">
+                                    <div class="item-title label"> سنة الصنع </div>
+                                    <div class="item-input">
+                                        <input type="number" placeholder=" سنة الصنع   " name="year" id="year" max="4" disabled/>
+                                    </div>
+                                </div>
+                            </div>
+                        </li>
+
+
+
+                        <li>
+                            <div class="item-content">
+                                <div class="item-inner">
+                                    <div class="item-title label"> </div>
+                                    <div class="item-input">
+
+                                        <input type="button" value="صورة السيارة" id="btnTakePicture1" class="button" />
+                                    </div>
+                                </div>
+                            </div>
+                        </li>
+
+
+                        <li>
+                            <div class="item-content">
+                                <div class="item-inner">
+                                    <div class="item-title label"> </div>
+                                    <div class="item-input">
+
+                                        <img id="imgArea" src="" style="width:100%;" />
+                                    </div>
+                                </div>
+                            </div>
+                        </li>
+
+
+
+
+
+
+                    </ul>
+                </div>
+
+                <div class="content-block">
+                    <div class="row">
+                        <div class="col-100 update-butonn-to-be-here">
+                            <a href="#" class="button button-round edit-profile" id="">تعديل</a>
+                        </div>
+                       <!--  <div class="col-50">
+                            <input type="button" value="تسجيل" id="submit_button" class="button button-big button-fill color-green" />
+                            <button type="submit" value="" id="submit_button" class="button button-big button-fill color-green"/>تسجيل<button> 
+                        </div> -->
+                    </div>
+                </div>
+
+
+
+                <div class="content-block">
+                    <div class="row">
+                        <div class="col-50">
+                             &nbsp;
+                             &nbsp;
+                            &nbsp;
+                        </div>
+                        <div class="col-50">
+                             &nbsp; &nbsp; &nbsp;
+                        </div>
+                    </div>
+                </div>
+
+
+            </form>
+
+
+
+
+        </div>
+    </div>
+</div>
