@@ -11,7 +11,13 @@
     <access origin="*" />
 	 <icon src="res/icon.png" />
 	 
-
+        <platform name="android">
+           
+            <icon src="res/android/mdpi.png" density="mdpi" />
+            <icon src="res/android/hdpi.png" density="hdpi" />
+            <icon src="res/android/xhdpi.png" density="xhdpi" />
+            <icon src="res/android/xxhdpi.png" density="xxhdpi" />
+        </platform>
        <platform name="ios">
         <!-- iOS 8.0+ -->
         <!-- iPhone 6 Plus  -->
