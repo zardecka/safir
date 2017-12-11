@@ -61,9 +61,9 @@
       </dict>
     </dict>
     <key>NSCameraUsageDescription</key>
-    <string/>
+    <string>Camera Access Warning</string>
     <key>NSPhotoLibraryUsageDescription</key>
-    <string/>
+   <string>Photo Library Access Warning</string>
     <key>NSLocationWhenInUseUsageDescription</key>
     <string/>
     <key>NSPhotoLibraryAddUsageDescription</key>
