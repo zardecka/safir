@@ -10,8 +10,7 @@
     <content src="index.html" />
     <access origin="*" />
 	 <icon src="res/icon.png" />
-	 <icon src="res/icon.png" platform="ios" width="180" height="180" />
-
+	 
 
        <platform name="ios">
         <!-- iOS 8.0+ -->
