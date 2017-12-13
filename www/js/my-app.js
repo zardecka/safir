@@ -85,7 +85,7 @@ myApp.onPageInit('index', function (page) {
 
     $$.ajax({
         type: 'POST',
-        url: captain + 'login_captain/',
+        url: captain + 'version/',
         //crossDomain: true,
         data: JSON.stringify({
            
