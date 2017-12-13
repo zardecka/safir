@@ -10,7 +10,7 @@ $(document).on('pageInit', '.page[data-page="index"]',  function(e){
 
 // Initialize your app
 var myApp = new Framework7(
-    { material: true,}
+    { ios: true,}
 );
 
 // Export selectors engine
@@ -22,6 +22,8 @@ var captain = baseURL + 'index.php/captain/';
 var trips = baseURL + 'index.php/trips/';
 var upload_image = baseURL + 'index.php/captain/upload_image/';
 var carimage = baseURL + 'images/';
+var googleplay = 'https://play.google.com/store/apps/details?id=com.phonegap.safir';
+var appstore = '';
 // Add view
 var mainView = myApp.addView('.view-main', {
     // Because we use fixed-through navbar we can enable dynamic navbar
@@ -31,6 +33,11 @@ var mainView = myApp.addView('.view-main', {
 
 function onDeviceReady() {
     document.addEventListener("backbutton", onBackKeyDown, false);
+
+    var deviceType = (navigator.userAgent.match(/iPad/i)) == "iPad" ? "iPad" : (navigator.userAgent.match(/iPhone/i)) == "iPhone" ? "iPhone" : (navigator.userAgent.match(/Android/i)) == "Android" ? "Android" : (navigator.userAgent.match(/BlackBerry/i)) == "BlackBerry" ? "BlackBerry" : "null";
+
+    
+
 } 
 
 function onBackKeyDown() {
@@ -76,27 +83,46 @@ myApp.onPageInit('index', function (page) {
     }
 
 
+    $$.ajax({
+        type: 'POST',
+        url: captain + 'login_captain/',
+        //crossDomain: true,
+        data: JSON.stringify({
+           
+        }),
+        success: function (data) {
+            if (data.code == 0) {
+               
+
+                myApp.removeFromCache('login.html');
+                mainView.router.loadPage({
+                    url: 'new_trip.html',
+                    ignoreCache: true,
+                    reload: true
+                });
+                // mainView.router.loadPage("index.html");
+            } 
+
+          
+
+            myApp.hideIndicator();
+            console.log(data.code);
+        },
+        error: function (data) {
+            myApp.hideIndicator();
+           
+        }
+        , dataType: 'json'
+    }); 
 
 
-
-
-
-
-
-
-    // run createContentPage func after link was clicked
-  // var db = window.openDatabase("users","1.0","SafirDB",200000);
-   //saveData();
 
 
 //window.sessionStorage
   if(window.localStorage.getItem("loggedIn") == 1) {
         // Logged In
         // Redirect to first page after logged in.
-       // mainView.router.loadPage("index.html");
-       // $$("#captain_menu").css({"display":"block"});
-        //$$("#guest_menu").css({"display":"none"});
-        //alert("I am here");
+      
         $$(".list-block>ul.captain_menu").show();
         $$(".list-block>ul.guest_menu").hide();
 
@@ -111,27 +137,10 @@ myApp.onPageInit('index', function (page) {
         $$(".list-block>ul.captain_menu").hide();
         $$(".list-block>ul.guest_menu").show();
         
-      //  $$("#guest_menu").css({"display":"block"});
-      //  $$("#captain_menu").css({"display":"none"});
-       // mainView.router.loadPage("filter_trip.html");
-
-       /*  mainView.router.loadPage({
-            url: 'filter_trip.html',
-            ignoreCache: true,
-            reload: true}); */
+      
     }
 
-/* 
-    $$(".item-link > a.logout").click(function(e){
-        //e.preventDefault();
-        alert("hello");
-    window.localStorage.setItem("loggedIn", 0);
-    window.localStorage.removeItem("email");
-    mainView.router.loadPage("index.html");
-    
-   });  */
 
-    //$$('.open-about').on('click', function () {
   if (window.localStorage.getItem("agreed")===null){
         myApp.popup('.popup-terms');
   }
@@ -143,30 +152,31 @@ myApp.onPageInit('index', function (page) {
                 if($$('input[type=checkbox]:checked').length > 0)
                 {
                     $$("#close_terms").removeAttr('disabled');//.prop("disabled", false);
-                  //  $$("#close_terms").attr("disabled", "");
+                 
                     window.localStorage.setItem("agreed",true);
 
                 }else{
                     $$("#close_terms").attr("disabled", "disabled");
                     
                 }
-               /*  if (this.checked) {
-                    $$("#close_terms").removeAttr('disabled');//.prop("disabled", false);
-                    alert("checked");
-                    
-                }else{
-                    $$("#close_terms").Attr("disabled", "disabled");
-                    alert("unchecked");
-                } */
+              
             });
 
   $$(document).on("click",".share_app" , function(){
-
+      var deviceType = (navigator.userAgent.match(/iPad/i)) == "iPad" ? "iPad" : (navigator.userAgent.match(/iPhone/i)) == "iPhone" ? "iPhone" : (navigator.userAgent.match(/Android/i)) == "Android" ? "Android" : (navigator.userAgent.match(/BlackBerry/i)) == "BlackBerry" ? "BlackBerry" : "null";
+      var sharelink = '';
+      if (deviceType == "iPad" || deviceType =="iPhone"){
+          sharelink = 'https://play.google.com/store/apps/details?id=com.phonegap.safir';
+      }
+      else if (deviceType == "Android") {
+       
+              sharelink = '';          
+       }        
        var options = {
            message: 'حمل تطبيق سافر واستمتع بتجربة سفر مميزة!', // not supported on some apps (Facebook, Instagram)
            subject: 'مشاركة التطبيق', // fi. for email
            files: ['', ''], // an array of filenames either locally or remotely
-           url: 'https://www.website.com/foo/#bar?a=b',
+           url: sharelink,
            chooserTitle: 'شارك التطبيق على ' // Android only, you can override the default share sheet title
        }
 
