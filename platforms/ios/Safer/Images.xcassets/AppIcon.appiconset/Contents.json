@@ -1,6 +1,11 @@
 {
   "images" : [
-    ,
+    {
+      "idiom" : "iphone",
+      "size" : "60x60",
+      "filename" : "icon-60.png",
+      "scale" : "1x"
+    },
     {
       "idiom" : "iphone",
       "size" : "60x60",
