@@ -1,5 +1,5 @@
 <?xml version='1.0' encoding='utf-8'?>
-<widget id="com.phonegap.safir" version="1.0.20" xmlns="http://www.w3.org/ns/widgets" xmlns:gap="http://phonegap.com/ns/1.0">
+<widget id="com.phonegap.safir" version="1.0.21" xmlns="http://www.w3.org/ns/widgets" xmlns:gap="http://phonegap.com/ns/1.0">
     <name>Safer</name>
     <description>
         The Best way to travel arround the Kingdom.
@@ -21,14 +21,14 @@
        <platform name="ios">
         <!-- iOS 8.0+ -->
         <!-- iPhone 6 Plus  -->
-        <icon src="res/ios/icon-60@3x.png" width="180" height="180" />
+        <icon src="icon-60@3x.png" width="180" height="180" />
         <!-- iOS 7.0+ -->
         <!-- iPhone / iPod Touch  -->
-        <icon src="res/ios/icon-60.png" width="60" height="60" />
-        <icon src="res/ios/icon-60@2x.png" width="120" height="120" />
+        <icon src="icon-60.png" width="60" height="60" />
+        <icon src="icon-60@2x.png" width="120" height="120" />
         <!-- iPad -->
-        <icon src="res/ios/icon-76.png" width="76" height="76" />
-        <icon src="res/ios/icon-76@2x.png" width="152" height="152" />
+        <icon src="icon-76.png" width="76" height="76" />
+        <icon src="icon-76@2x.png" width="152" height="152" />
        
     </platform>
 
