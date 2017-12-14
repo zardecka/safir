@@ -1,5 +1,5 @@
 <?xml version='1.0' encoding='utf-8'?>
-<widget id="com.phonegap.safir" version="1.0.26" xmlns="http://www.w3.org/ns/widgets" xmlns:gap="http://phonegap.com/ns/1.0">
+<widget id="com.phonegap.safir" version="1.0.27" xmlns="http://www.w3.org/ns/widgets" xmlns:gap="http://phonegap.com/ns/1.0">
     <name>Safer</name>
     <description>
         The Best way to travel arround the Kingdom.
@@ -10,7 +10,7 @@
     <content src="index.html" />
     <access origin="*" />
 	 <!--<icon src="res/icon.png" hhhh/>-->
-	 
+	 <icon src="res/ios/icon.png" platform="ios" width="57" height="57" density="mdpi" />
        <!-- <platform name="android">
            
             <icon src="res/android/mdpi.png" density="mdpi" />
