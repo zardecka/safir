@@ -24,6 +24,7 @@ var upload_image = baseURL + 'index.php/captain/upload_image/';
 var carimage = baseURL + 'images/';
 var googleplay = 'https://play.google.com/store/apps/details?id=com.phonegap.safir';
 var appstore = '';
+var currentVersion = 13;
 // Add view
 var mainView = myApp.addView('.view-main', {
     // Because we use fixed-through navbar we can enable dynamic navbar
@@ -36,7 +37,29 @@ function onDeviceReady() {
 
     var deviceType = (navigator.userAgent.match(/iPad/i)) == "iPad" ? "iPad" : (navigator.userAgent.match(/iPhone/i)) == "iPhone" ? "iPhone" : (navigator.userAgent.match(/Android/i)) == "Android" ? "Android" : (navigator.userAgent.match(/BlackBerry/i)) == "BlackBerry" ? "BlackBerry" : "null";
 
-    
+    $$.ajax({
+        type: 'GET',
+        url: captain + 'version',
+        //crossDomain: true,
+        /*  data: JSON.stringify({
+            
+         }), */
+        success: function (data) {
+            if (data.code == 0) {
+                if (data.version < currentVersion) {
+                    myApp.popup('.popup-version');
+                }
+            }
+
+            myApp.hideIndicator();
+            console.log(data.code);
+        },
+        error: function (data) {
+            myApp.hideIndicator();
+
+        }
+        , dataType: 'json'
+    });
 
 } 
 
@@ -81,39 +104,6 @@ myApp.onPageInit('index', function (page) {
     } else {
         onDeviceReady();
     }
-
-
-    $$.ajax({
-        type: 'POST',
-        url: captain + 'version/',
-        //crossDomain: true,
-        data: JSON.stringify({
-           
-        }),
-        success: function (data) {
-            if (data.code == 0) {
-               
-
-                myApp.removeFromCache('login.html');
-                mainView.router.loadPage({
-                    url: 'new_trip.html',
-                    ignoreCache: true,
-                    reload: true
-                });
-                // mainView.router.loadPage("index.html");
-            } 
-
-          
-
-            myApp.hideIndicator();
-            console.log(data.code);
-        },
-        error: function (data) {
-            myApp.hideIndicator();
-           
-        }
-        , dataType: 'json'
-    }); 
 
 
 

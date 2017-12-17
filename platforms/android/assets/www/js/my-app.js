@@ -3,14 +3,14 @@
 $(document).on('pageInit', '.page[data-page="index"]',  function(e){
 
     console.log("I am here");
-
+//676666666666666666666
 
 }).trigger(); */
 
 
 // Initialize your app
 var myApp = new Framework7(
-    { material: true,}
+    { ios: true,}
 );
 
 // Export selectors engine
@@ -20,7 +20,11 @@ var baseURL = 'http://safir.mdawaina.com/';
 //var baseURL = 'http://localhost:81/safirweb/';
 var captain = baseURL + 'index.php/captain/';
 var trips = baseURL + 'index.php/trips/';
-var upload_image = baseURL + 'index.php/captain/';
+var upload_image = baseURL + 'index.php/captain/upload_image/';
+var carimage = baseURL + 'images/';
+var googleplay = 'https://play.google.com/store/apps/details?id=com.phonegap.safir';
+var appstore = '';
+var currentVersion = 13;
 // Add view
 var mainView = myApp.addView('.view-main', {
     // Because we use fixed-through navbar we can enable dynamic navbar
@@ -29,39 +33,43 @@ var mainView = myApp.addView('.view-main', {
 
 
 function onDeviceReady() {
-   alert("I am here6");
-      // $$("#btnTakePicture").click(function(data){
-      console.log("HII");
-      console.log("I am here");      
-        var options = {
-            quality: 50,
-            destinationType: Camera.DestinationType.FILE_URI,
-            encodingType: Camera.EncodingType.JPEG,
-            mediaType: Camera.MediaType.PICTURE,
-            targetWidth: 600,
-            targetHeight: 400,
-           // sourceType: navigator.camera.PictureSourceType.PHOTOLIBRARY // not originally included
-            sourceType: Camera.PictureSourceType.CAMERA //Camera.PictureSourceType.PHOTOLIBRARY,
-        }  
-        navigator.camera.getPicture(onSuccess, onFail, options);
-    
-        
-    function onSuccess(thePicture) {
-        alert("Picture Uploaded");      
-       $$("#imgArea").attr("src", thePicture);
-    }
-        
-    function onFail(e) {
-        alert("Image failed: " + e.message);
-    }
+    document.addEventListener("backbutton", onBackKeyDown, false);
 
+    var deviceType = (navigator.userAgent.match(/iPad/i)) == "iPad" ? "iPad" : (navigator.userAgent.match(/iPhone/i)) == "iPhone" ? "iPhone" : (navigator.userAgent.match(/Android/i)) == "Android" ? "Android" : (navigator.userAgent.match(/BlackBerry/i)) == "BlackBerry" ? "BlackBerry" : "null";
 
-  //}); 
+    $$.ajax({
+        type: 'GET',
+        url: captain + 'version',
+        //crossDomain: true,
+        /*  data: JSON.stringify({
+            
+         }), */
+        success: function (data) {
+            if (data.code == 0) {
+                if (data.version < currentVersion) {
+                    myApp.popup('.popup-version');
+                }
+            }
 
+            myApp.hideIndicator();
+            console.log(data.code);
+        },
+        error: function (data) {
+            myApp.hideIndicator();
 
+        }
+        , dataType: 'json'
+    });
+
+} 
+
+function onBackKeyDown() {
+    mainView.router.loadPage({
+        url: 'index.html',
+        ignoreCache: true,
+        reload: true
+    });
 }
-
-
 
 // Callbacks to run specific code for specific pages, for example for About page:
 myApp.onPageInit('about', function (page) {
@@ -80,6 +88,13 @@ myApp.onPageInit('about', function (page) {
    console.log("after");
    // Do something here when page with data-page="about" attribute loaded and initialized
   })   */ 
+
+
+
+
+
+
+
 myApp.onPageInit('index', function (page) {
 
 
@@ -93,30 +108,16 @@ myApp.onPageInit('index', function (page) {
 
 
 
-
-
-
-
-
-
-    // run createContentPage func after link was clicked
-  // var db = window.openDatabase("users","1.0","SafirDB",200000);
-   //saveData();
-  // onDeviceReady();
-
 //window.sessionStorage
   if(window.localStorage.getItem("loggedIn") == 1) {
         // Logged In
         // Redirect to first page after logged in.
-       // mainView.router.loadPage("index.html");
-       // $$("#captain_menu").css({"display":"block"});
-        //$$("#guest_menu").css({"display":"none"});
-        //alert("I am here");
+      
         $$(".list-block>ul.captain_menu").show();
         $$(".list-block>ul.guest_menu").hide();
 
         mainView.router.loadPage({
-            url: 'my_trips.html',
+            url: 'new_trip.html',
             ignoreCache: true,
             reload: true});
         
@@ -126,26 +127,61 @@ myApp.onPageInit('index', function (page) {
         $$(".list-block>ul.captain_menu").hide();
         $$(".list-block>ul.guest_menu").show();
         
-      //  $$("#guest_menu").css({"display":"block"});
-      //  $$("#captain_menu").css({"display":"none"});
-       // mainView.router.loadPage("filter_trip.html");
-
-       /*  mainView.router.loadPage({
-            url: 'filter_trip.html',
-            ignoreCache: true,
-            reload: true}); */
+      
     }
 
-/* 
-    $$(".item-link > a.logout").click(function(e){
-        //e.preventDefault();
-        alert("hello");
-    window.localStorage.setItem("loggedIn", 0);
-    window.localStorage.removeItem("email");
-    mainView.router.loadPage("index.html");
-    
-   });  */
 
+  if (window.localStorage.getItem("agreed")===null){
+        myApp.popup('.popup-terms');
+  }
+   // });
+
+        $$('input[type=checkbox]').change(
+            function () {
+
+                if($$('input[type=checkbox]:checked').length > 0)
+                {
+                    $$("#close_terms").removeAttr('disabled');//.prop("disabled", false);
+                 
+                    window.localStorage.setItem("agreed",true);
+
+                }else{
+                    $$("#close_terms").attr("disabled", "disabled");
+                    
+                }
+              
+            });
+
+  $$(document).on("click",".share_app" , function(){
+      var deviceType = (navigator.userAgent.match(/iPad/i)) == "iPad" ? "iPad" : (navigator.userAgent.match(/iPhone/i)) == "iPhone" ? "iPhone" : (navigator.userAgent.match(/Android/i)) == "Android" ? "Android" : (navigator.userAgent.match(/BlackBerry/i)) == "BlackBerry" ? "BlackBerry" : "null";
+      var sharelink = '';
+      if (deviceType == "iPad" || deviceType =="iPhone"){
+          sharelink = 'https://play.google.com/store/apps/details?id=com.phonegap.safir';
+      }
+      else if (deviceType == "Android") {
+       
+              sharelink = '';          
+       }        
+       var options = {
+           message: 'حمل تطبيق سافر واستمتع بتجربة سفر مميزة!', // not supported on some apps (Facebook, Instagram)
+           subject: 'مشاركة التطبيق', // fi. for email
+           files: ['', ''], // an array of filenames either locally or remotely
+           url: sharelink,
+           chooserTitle: 'شارك التطبيق على ' // Android only, you can override the default share sheet title
+       }
+
+       var onSuccess = function (result) {
+           console.log("Share completed? " + result.completed); // On Android apps mostly return false even while it's true
+           console.log("Shared to app: " + result.app); // On Android result.app is currently empty. On iOS it's empty when sharing is cancelled (result.completed=false)
+       }
+
+       var onError = function (msg) {
+           console.log("Sharing failed with message: " + msg);
+       }
+
+       window.plugins.socialsharing.shareWithOptions(options, onSuccess, onError);
+
+   });
 
    $$(document).on("click",".list-block>ul.captain_menu>.logout", function() {
         window.localStorage.setItem("loggedIn", 0);
@@ -243,11 +279,20 @@ $$("#login_button").click(function(data){
                 
                 myApp.removeFromCache('login.html');
                  mainView.router.loadPage({
-                     url: 'my_trips.html',
+                     url: 'new_trip.html',
                     ignoreCache: true,
                     reload: true}); 
                    // mainView.router.loadPage("index.html");
-            }else{
+            } else if(data.code == 2){
+                myApp.alert('', data.message);
+                mainView.router.loadPage({
+                    url: 'enter_code.html?captain_id=' + data.captain_id,
+                    ignoreCache: true,
+                    reload: true
+                });
+            }
+            
+            else{
               //  $$('.alert-text-title').on('click', function () {
                     myApp.alert('',data.message);
               //  });
@@ -272,17 +317,7 @@ $$("#login_button").click(function(data){
 
 
 myApp.onPageInit('my_trips', function (page) {
-    if (window.localStorage.getItem("loggedIn") == 1) {
-       
-        $$(".list-block>ul.captain_menu").show();
-        $$(".list-block>ul.guest_menu").hide();
-
-    }
-    else {
-        $$(".list-block>ul.captain_menu").hide();
-        $$(".list-block>ul.guest_menu").show();
-
-    }
+  
    // alert("I am here2");
         $$.ajax({
             type: 'POST',
@@ -304,7 +339,7 @@ myApp.onPageInit('my_trips', function (page) {
                            $$('#tripsul').append('<li>'+
                       //  trip_context = trip_context + '<li>' +
                             '<a href="trip_detail.html?tripid=' + item.id + '" data-reload="true" class="item-link item-content">' +
-                            '<div class="item-media"><img src="img/' + item.carimage + '" width="80"></div>' +
+                               '<div class="item-media"><img src="' + carimage + item.carimage + '" width="80"></div>' +
                             '<div class="item-inner">' +
                             '<div class="item-title-row">' +
                             '<div class="item-title cityfromto"> ' + item.cfrom + '->' + item.cto + '</div>' +
@@ -342,23 +377,30 @@ myApp.onPageInit('my_trips', function (page) {
     });
 
 myApp.onPageInit('enter_code', function (page) {
+   // alert("hello");
+    var values = page.query;   
+    var captain_id = values.captain_id;
 
-
-    $$("#submit_button").click(function (data) {
+    $$("#verify_code_button").click(function (data) {
         myApp.showIndicator();
         $$.ajax({
             type: 'POST',
-            url: captain + 'verfy_code/',
+            url: captain + 'verify_code/',
 
             data: JSON.stringify({
                 activation_code: $$("#activation_code").val(),
-                email: $$("#email").val()
+                captain_id: captain_id
                
             }),
             success: function (data) {
                 myApp.hideIndicator();
                 if(data.code == 0){
-
+                    myApp.alert('', "تم تنشيط حسابك، فضلا سجل الدخول");
+                    mainView.router.loadPage({
+                        url: 'login.html',
+                        ignoreCache: true,
+                        reload: true
+                    });
                 }else{
                     myApp.alert('',data.message);
                 }
@@ -394,7 +436,7 @@ myApp.onPageInit('filter_trip', function (page) {
         
       
         today = yyyy + '-' + mm + '-' + dd;
-      
+        
         $$("#trip_date").val(today);
      
      $$("#submit_button").click(function (data) {
@@ -402,7 +444,7 @@ myApp.onPageInit('filter_trip', function (page) {
         $trimp_from = $$('#tfrom').val();
         $trip_to = $$('#tto').val();
         $trip_date = $$('#trip_date').val();
-
+        $ttime = $$('#ttime').val();
         $$.ajax({
             type: 'POST',
             url: trips + 'filter_trip/',
@@ -410,7 +452,8 @@ myApp.onPageInit('filter_trip', function (page) {
             data:  JSON.stringify ({
                 tfrom: $trimp_from,
                 tto:$trip_to,
-                trip_date:$trip_date  
+                trip_date:$trip_date,
+                ttime:$ttime
             }),
             success: function(data) {
               
@@ -427,14 +470,14 @@ myApp.onPageInit('filter_trip', function (page) {
                         //   $$('#tripsul').append('<li>'+
                         trip_context = trip_context + '<li>'+
                            '<a href="trip_detail.html?tripid='+item.id+'" data-reload="true" class="item-link item-content">'+
-                             '<div class="item-media"><img src="img/'+item.carimage+'" width="80"></div>'+
+                            '<div class="item-media"><img src="' +carimage+item.carimage+'" width="80"></div>'+
                              '<div class="item-inner">'+
                                '<div class="item-title-row">'+
                                  '<div class="item-title cityfromto"> '+item.cfrom+'->'+item.cto+'</div>'+
                                  '<!--div class="item-after">$15</div-->'+
                                '</div>'+
                                '<div class="item-subtitle">'+item.car+'</div>'+
-                            '<div class="item-text">' + item.trip_date + '</div>' +
+                            '<div class="item-text">' + item.trip_date_name + ' ' + item.trip_date + '</div>' +
                             '<div class="item-text">' + item.trip_time + '</div>' +
                                '<div class="item-text">'+item.captain+'</div>'+
                              '</div>'+
@@ -467,6 +510,15 @@ myApp.onPageInit('filter_trip', function (page) {
 
 
 myApp.onPageInit('new_trip', function (page) {
+
+    if (window.localStorage.getItem("loggedIn") == 1) {
+        $$(".list-block>ul.captain_menu").show();
+        $$(".list-block>ul.guest_menu").hide();
+    }
+    else {
+        $$(".list-block>ul.captain_menu").hide();
+        $$(".list-block>ul.guest_menu").show();
+    }
 
     var today = new Date();
     var dd = today.getDate();
@@ -539,6 +591,8 @@ myApp.onPageInit('form', function (page) {
 //$$('form.ajax-submit').on('form:success', function (e) {
    // $$('form.ajax-submit').submit(function(e){
     $$("#submit_button").click(function (data) {
+
+        var isvalid = true;
    // var xhr = e.detail.xhr; // actual XHR object
    myApp.showIndicator();
   //  var data = e.detail.data; // Ajax response from action file
@@ -550,49 +604,97 @@ $mobile = $$('#mobile').val();
 $brand = $$('#brand').val();
 $model = $$('#model').val();
 $year = $$('#year').val();
+$fileURI = $$('#imgArea').attr('src');
 //$image = $$('#image').val();
 
-
-//alert($name.val());
-//e.preventDefault();
-     $$.ajax({
-        type: 'POST',
-        url: captain + 'register_captain/',
-        //crossDomain: true,
-        data:  JSON.stringify ({
-            name: $name,
-            email:$email,
-            password:$password,
-            mobile:$mobile,
-            brand:$brand,
-            model:$model,
-            year:$year
-        
-        }),
-        success: function(data) {
+        if ($name===''){
+            myApp.alert('', "الاسم مطلوب");
+            isvalid = false;
             myApp.hideIndicator();
-            if(data.code==0){
-                mainView.router.loadPage({
-                    url: 'enter_code.html',
-                    ignoreCache: true,
-                    reload: true
-                }); 
-            }else{
-                myApp.alert('',data.message);
-            }
-            console.log(data.code);
-           // console.log(JSON.stringify(data)); 
-           // mainView.router.loadPage("about.html")
-        },
-        error: function (data) {
-            myApp.hideIndicator();
-            console.log('An error occurred.');
-            console.log(data);
-        }//,
-       // contentType: "application/json"//,
-        ,dataType: 'json'
-    }); 
+        }
 
+        if ($email === '') {
+            myApp.alert('', "البريد الالكتروني مطلوب");
+            isvalid = false;
+            myApp.hideIndicator();
+        }
+
+        if ($password === '') {
+            myApp.alert('', "كلمة المرور مطلوبة");
+            isvalid = false;
+            myApp.hideIndicator();
+        }
+
+        if ($mobile === '') {
+            myApp.alert('', "رقم الجوال مطلوب");
+            isvalid = false;
+            myApp.hideIndicator();
+        }
+
+        if ($brand === '') {
+            myApp.alert('', "العلامة التجارية للسيارة مطلوبة");
+            isvalid = false;
+            myApp.hideIndicator();
+        }
+
+        if ($model === '') {
+            myApp.alert('', "موديل السيارة مطلوب");
+            isvalid = false;
+            myApp.hideIndicator();
+        }
+
+        if ($year === '') {
+            myApp.alert('', "سنة الصنع مطلوبة");
+            isvalid = false;
+            myApp.hideIndicator();
+        }
+
+        if ($fileURI === ''){
+            myApp.alert('', "ارفق صورة للسيارة الخاصة بك");
+            isvalid = false;
+            myApp.hideIndicator();
+        }
+
+        if (isvalid) {
+            $$.ajax({
+                type: 'POST',
+                url: captain + 'register_captain/',
+                //crossDomain: true,
+                data: JSON.stringify({
+                    name: $name,
+                    email: $email,
+                    password: $password,
+                    mobile: $mobile,
+                    brand: $brand,
+                    model: $model,
+                    year: $year
+
+                }),
+                success: function (data) {
+                    myApp.hideIndicator();
+                    if (data.code == 0) {
+                       upload_car_image(data.captain_id);
+
+                     /*    mainView.router.loadPage({
+                            url: 'enter_code.html?captain_id=' + data.captain_id,
+                            ignoreCache: true,
+                            reload: true
+                        }); */
+                    } else {
+                        myApp.alert('', data.message);
+                    }
+                    console.log(data.code);
+
+                },
+                error: function (data) {
+                    myApp.hideIndicator();
+                    console.log('An error occurred.');
+                    console.log(data);
+                }//,
+
+                , dataType: 'json'
+            });
+        }
    // e.preventDefault();
 
 
@@ -607,29 +709,122 @@ $year = $$('#year').val();
 
   });
 
+
+
+
+
+    $$('#fortest').on('click',function(){
+      
+        var fileURI = $$('#imgArea').attr('src');
+       // alert(encodeURI(fileURI))
+        var options = new FileUploadOptions();
+        options.fileKey = "uploadfile";
+        options.fileName ='myimage444'; // fileURI.substr(fileURI.lastIndexOf('/') + 1);
+        options.mimeType = "image/jpeg";
+        options.params = {}; // if we need to send parameters to the server request
+        var ft = new FileTransfer();
+       
+        var win = function (r) {          
+            console.log("Done: Response = " + r.response);
+        }
+
+        var fail = function (error) {           
+            alert('Ups. Something wrong happens!' + error);           
+        }
+
+        ft.upload(fileURI, encodeURI(upload_image), win, fail, options);
+        console.log("khlas done!");
+
+    });
+
+
+    function upload_car_image(captain_id){
+        var fileURI = $$('#imgArea').attr('src');
+       
+        var options = new FileUploadOptions();
+        options.fileKey = "uploadfile";
+        options.fileName = 'myimage444'; // fileURI.substr(fileURI.lastIndexOf('/') + 1);
+        options.mimeType = "image/jpeg";
+        options.params = { captain_id: captain_id}; // if we need to send parameters to the server request
+        var ft = new FileTransfer();
+
+        var win = function (r) {
+            mainView.router.loadPage({
+                url: 'enter_code.html?captain_id=' + captain_id,
+                ignoreCache: true,
+                reload: true
+            });
+        }
+
+        var fail = function (error) {
+         
+            console.log('Ups. Something wrong happens!' + error);
+        }
+
+        ft.upload(fileURI, encodeURI(upload_image), win, fail, options);
+        console.log("khlas done!");
+    }
    
      $$('#btnCam').on('click', function () {
-            capturePhoto();
-       
-        function capturePhoto() {           
-            navigator.camera.getPicture(onPhotoDataSuccess, onFail, {
-                quality: 50,
-                destinationType: destinationType.DATA_URL
-            });
-            //alert('yoo');
-        }
+        console.log("hello");
+
+         var options = {
+             quality: 50,
+             destinationType: Camera.DestinationType.FILE_URI,
+             encodingType: Camera.EncodingType.JPEG,
+             mediaType: Camera.MediaType.PICTURE,
+             targetWidth: 600,
+             targetHeight: 400,
+             correctOrientation: true,
+             // sourceType: navigator.camera.PictureSourceType.PHOTOLIBRARY // not originally included
+             sourceType: Camera.PictureSourceType.CAMERA //Camera.PictureSourceType.PHOTOLIBRARY,
+         }
+         navigator.camera.getPicture(onSuccess, onFail, options);
 
         function onFail(message) {
             alert('Failed because: ' + message);
         }
-        function onPhotoDataSuccess(imageData) {
-           
-            var smallImage = document.getElementById('imgArea');
-
-            smallImage.style.display = 'block';
-
-            smallImage.src = "data:image/jpeg;base64," + imageData;
+       
+        function clearCache() {
+            navigator.camera.cleanup();
         }
+
+        var retries = 0;
+        function onSuccess(fileURI) {
+
+            $$("#imgArea").attr("src", fileURI);
+            
+            var win = function (r) {
+                clearCache();
+                retries = 0;
+               // alert('Done!');
+            }
+
+            var fail = function (error) {
+                if (retries == 0) {
+                    retries++
+                    setTimeout(function () {
+                        onSuccess(fileURI)
+                    }, 1000)
+                } else {
+                    retries = 0;
+                    clearCache();
+                    alert('Ups. Something wrong happens!');
+                }
+            }
+
+            var options = new FileUploadOptions();
+            options.fileKey = "uploadfile";
+            options.fileName = "tttyy6"; //  fileURI.substr(fileURI.lastIndexOf('/') + 1);
+            options.mimeType = "image/jpeg";
+            options.params = {}; // if we need to send parameters to the server request
+            var ft = new FileTransfer();
+            ft.upload(fileURI, encodeURI(upload_image), win, fail, options);
+        
+        }
+
+
+
     });
        
     $$("#btnCam22").click(function(data){
@@ -684,7 +879,7 @@ myApp.onPageInit('trips1', function (page) {
             console.log(item);                
                $$('#tripsul').append('<li>'+
                '<a href="trip_detail.html?tripid='+item.id+'" class="item-link item-content">'+
-                 '<div class="item-media"><img src="img/'+item.carimage+'" width="80"></div>'+
+                   '<div class="item-media"><img src="' + carimage + item.carimage+'" width="80"></div>'+
                  '<div class="item-inner">'+
                    '<div class="item-title-row">'+
                      '<div class="item-title cityfromto"> '+item.cfrom+'->'+item.cto+'</div>'+
@@ -742,10 +937,10 @@ myApp.onPageInit('trip_detail', function (page) {
                 $$("#trip_time").html('<span> </span>');
                 $$("#car").html('<span> '+item.car+'</span>');
                 $$("#mobile_number").html('<span>'+item.mobile+'</span>');
-                $$("#trip_date  ").html('<span>'+item.trip_date+'</span>');
+                $$("#trip_date  ").html('<span>' + item.trip_date_name + ' ' +item.trip_date+'</span>');
                 $$("#trip_time").html('<span>'+item.trip_time+'</span>');
 //                $$("#datetime").html('<span>'+item.datetime+'</span>');
-                $$("#carimage").attr('src','img/'+item.carimage);
+                $$("#carimage").attr('src',carimage+item.carimage);
                // console.log(item.carimage);
             },
             error: function (data) {
@@ -797,7 +992,9 @@ myApp.onPageInit('captain_profile', function (page) {
 
     myApp.showIndicator();
 
-    $$.ajax({
+   
+    $$.ajax
+    ({
         type: 'POST',
         url: captain + 'captain_profile/', // + captain_id,
         data: JSON.stringify({ captain_id: window.localStorage.getItem("captain_id")}),        
@@ -811,8 +1008,8 @@ myApp.onPageInit('captain_profile', function (page) {
             $$("#brand").val(resp.captain_data.brand);
             $$("#model").val(resp.captain_data.model);
             $$("#year").val(resp.captain_data.year);
-          //  $$("#image").val(resp.captain_data.name);
-           
+            
+            $$("#imgArea").attr("src", carimage + resp.captain_data.image);
         },
         error: function (data) {
             myApp.hideIndicator();
@@ -837,17 +1034,106 @@ myApp.onPageInit('captain_profile', function (page) {
 
        
         
-        $$(".update-butonn-to-be-here").html('<p><a href="#" class="button button-fill color-green update-profile">تحديث</a></p>');
+        $$(".update-butonn-to-be-here").html('<p><a href="#" class="button button-fill color-green" id="update_profile">تحديث</a></p>');
     });
 
-   
+    $$('#imgArea').on('click', function () {
+        console.log("hello");
+
+        var options = {
+            quality: 50,
+            destinationType: Camera.DestinationType.FILE_URI,
+            encodingType: Camera.EncodingType.JPEG,
+            mediaType: Camera.MediaType.PICTURE,
+            targetWidth: 600,
+            targetHeight: 400,
+            correctOrientation: true,
+            // sourceType: navigator.camera.PictureSourceType.PHOTOLIBRARY // not originally included
+            sourceType: Camera.PictureSourceType.CAMERA //Camera.PictureSourceType.PHOTOLIBRARY,
+        }
+        navigator.camera.getPicture(onSuccess, onFail, options);
+
+        function onFail(message) {
+            alert('Failed because: ' + message);
+        }
+
+        function clearCache() {
+            navigator.camera.cleanup();
+        }
+
+        var retries = 0;
+        function onSuccess(fileURI) {
+
+            $$("#imgArea").attr("src", fileURI);
+
+            var win = function (r) {
+                clearCache();
+                retries = 0;
+                //alert('Done!');
+            }
+
+            var fail = function (error) {
+                if (retries == 0) {
+                    retries++
+                    setTimeout(function () {
+                        onSuccess(fileURI)
+                    }, 1000)
+                } else {
+                    retries = 0;
+                    clearCache();
+                    alert('Ups. Something wrong happens!');
+                }
+            }
+
+            var options = new FileUploadOptions();
+            options.fileKey = "uploadfile";
+            options.fileName = "tttyy6"; //  fileURI.substr(fileURI.lastIndexOf('/') + 1);
+            options.mimeType = "image/jpeg";
+            options.params = {}; // if we need to send parameters to the server request
+            var ft = new FileTransfer();
+            ft.upload(fileURI, encodeURI(upload_image), win, fail, options);
+
+        }
+
+
+
+    });
+
+    function update_car_image(captain_id) {
+        var fileURI = $$('#imgArea').attr('src');
+
+        var options = new FileUploadOptions();
+        options.fileKey = "uploadfile";
+        options.fileName = 'myimage444'; // fileURI.substr(fileURI.lastIndexOf('/') + 1);
+        options.mimeType = "image/jpeg";
+        options.params = { captain_id: captain_id }; // if we need to send parameters to the server request
+        var ft = new FileTransfer();
+
+        var win = function (r) {
+             mainView.router.loadPage({
+                url: 'captain_profile.html',
+                ignoreCache: true,
+                reload: true
+            });  
+
+            console.log('ppp'+captain_id);
+        }
+
+        var fail = function (error) {
+
+            console.log('Ups. Something wrong happens!' + error);
+        }
+
+        ft.upload(fileURI, encodeURI(upload_image), win, fail, options);
+        console.log("khlas done!");
+    }
 
     //do the update
 
-    $$(document).on('click', '.update-profile', function () {
-        
+    $$(document).on('click', '#update_profile', function () {
+
         myApp.showIndicator();
-        
+        $captain_id = window.localStorage.getItem("captain_id");
         $name = $$('#name').val();
         $email = $$('#email').val();
         $password = $$('#password').val();
@@ -855,13 +1141,65 @@ myApp.onPageInit('captain_profile', function (page) {
         $brand = $$('#brand').val();
         $model = $$('#model').val();
         $year = $$('#year').val();
-       
+
+        var isvalid = true;
+
+        if ($name === '') {
+            myApp.alert('', "الاسم مطلوب");
+            isvalid = false;
+            myApp.hideIndicator();
+        }
+
+        if ($email === '') {
+            myApp.alert('', "البريد الالكتروني مطلوب");
+            isvalid = false;
+            myApp.hideIndicator();
+        }
+
+        if ($password === '') {
+            myApp.alert('', "كلمة المرور مطلوبة");
+            isvalid = false;
+            myApp.hideIndicator();
+        }
+
+        if ($mobile === '') {
+            myApp.alert('', "رقم الجوال مطلوب");
+            isvalid = false;
+            myApp.hideIndicator();
+        }
+
+        if ($brand === '') {
+            myApp.alert('', "العلامة التجارية للسيارة مطلوبة");
+            isvalid = false;
+            myApp.hideIndicator();
+        }
+
+        if ($model === '') {
+            myApp.alert('', "موديل السيارة مطلوب");
+            isvalid = false;
+            myApp.hideIndicator();
+        }
+
+        if ($year === '') {
+            myApp.alert('', "سنة الصنع مطلوبة");
+            isvalid = false;
+            myApp.hideIndicator();
+        }
+
+       /*  if ($fileURI === '') {
+            myApp.alert('', "ارفق صورة للسيارة الخاصة بك");
+            isvalid = false;
+            myApp.hideIndicator();
+        } */
+
+      
+       if(isvalid){
         $$.ajax({
             type: 'POST',
             url: captain + 'update_captain/',
             
             data: JSON.stringify({
-                id: window.localStorage.getItem("captain_id"),
+                id: $captain_id,
                 name: $name,
                 email: $email,
                 password: $password,
@@ -874,11 +1212,9 @@ myApp.onPageInit('captain_profile', function (page) {
             success: function (data) {
                 myApp.hideIndicator();
                 if(data.code == 0){
-                    mainView.router.loadPage({
-                        url: 'captain_profile.html',
-                        ignoreCache: true,
-                        reload: true
-                    }); 
+
+                    update_car_image($captain_id);
+                   
                 }
                 console.log(data.code);                
             },
@@ -890,7 +1226,7 @@ myApp.onPageInit('captain_profile', function (page) {
             
             , dataType: 'json'
         });
-
+    }
    // e.preventDefault();
 
 
@@ -1012,20 +1348,7 @@ myApp.onPageInit('rating', function (page) {
 
 });
 
-/*     //upload car image to the server 
-    function onDeviceReady() {
-        
-        // Retrieve image file location from specified source
-        navigator.camera.getPicture(uploadPhoto,function(message) {
-             alert('get picture failed'); },
-            { quality: 50, 
-            destinationType: navigator.camera.DestinationType.FILE_URI,
-            sourceType: navigator.camera.PictureSourceType.PHOTOLIBRARY
-            //sourceType: navigator.camera.PictureSourceType.CAMERA
-            });
 
-    }
- */
     function uploadPhoto(imageURI) {
         var options = new FileUploadOptions();
         options.fileKey="file";
