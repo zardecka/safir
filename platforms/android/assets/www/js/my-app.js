@@ -46,7 +46,7 @@ function onDeviceReady() {
          }), */
         success: function (data) {
             if (data.code == 0) {
-                if (data.version < currentVersion) {
+                if (currentVersion < data.version) {
                     myApp.popup('.popup-version');
                 }
             }
