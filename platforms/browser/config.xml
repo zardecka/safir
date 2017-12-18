@@ -1,0 +1,19 @@
+<?xml version='1.0' encoding='utf-8'?>
+<widget id="com.phonegap.safir" version="1.0.27" xmlns="http://www.w3.org/ns/widgets" xmlns:cdv="http://cordova.apache.org/ns/1.0" xmlns:gap="http://phonegap.com/ns/1.0">
+    <feature name="Camera">
+        <param name="browser-package" value="Camera" />
+    </feature>
+    <name>Safer</name>
+    <description>
+        The Best way to travel arround the Kingdom.
+    </description>
+    <author email="mohameddawaina@gmail.com.com" href="http://mdawaina.com">
+        Mohamed Dawaina
+    </author>
+    <content src="index.html" />
+    <access origin="*" />
+    <icon density="mdpi" height="57" platform="ios" src="res/ios/icon.png" width="57" />
+    <allow-navigation href="http://*/*" />
+    <allow-intent href="https://*/*" />
+    <access origin="http://safir.mdawaina.com" />
+</widget>

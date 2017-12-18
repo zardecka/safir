@@ -1,21 +1,9 @@
 <?xml version='1.0' encoding='utf-8'?>
-<widget id="com.phonegap.safir" version="1.0.0" xmlns="http://www.w3.org/ns/widgets" xmlns:gap="http://phonegap.com/ns/1.0">
+<widget id="com.phonegap.safir" version="1.0.27" xmlns="http://www.w3.org/ns/widgets" xmlns:gap="http://phonegap.com/ns/1.0">
     <feature name="Whitelist">
         <param name="android-package" value="org.apache.cordova.whitelist.WhitelistPlugin" />
         <param name="onload" value="true" />
     </feature>
-    <name>Safir</name>
-    <description>
-        A blank PhoneGap app.
-    </description>
-    <author email="support@phonegap.com" href="http://phonegap.com">
-        PhoneGap Team
-    </author>
-    <content src="index.html" />
-    <access origin="*" />
-    <allow-navigation href="http://*/*" />
-    <allow-intent href="https://*/*" />
-    <preference name="loglevel" value="DEBUG" />
     <feature name="Camera">
         <param name="android-package" value="org.apache.cordova.camera.CameraLauncher" />
     </feature>
@@ -30,4 +18,18 @@
     <feature name="SocialSharing">
         <param name="android-package" value="nl.xservices.plugins.SocialSharing" />
     </feature>
+    <name>Safer</name>
+    <description>
+        The Best way to travel arround the Kingdom.
+    </description>
+    <author email="mohameddawaina@gmail.com.com" href="http://mdawaina.com">
+        Mohamed Dawaina
+    </author>
+    <content src="index.html" />
+    <access origin="*" />
+    <icon density="mdpi" height="57" platform="ios" src="res/ios/icon.png" width="57" />
+    <allow-navigation href="http://*/*" />
+    <allow-intent href="https://*/*" />
+    <access origin="http://safir.mdawaina.com" />
+    <preference name="loglevel" value="DEBUG" />
 </widget>
