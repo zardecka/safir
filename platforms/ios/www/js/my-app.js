@@ -420,6 +420,8 @@ myApp.onPageInit('enter_code', function (page) {
 });
 myApp.onPageInit('filter_trip', function (page) {
    
+  //var networkState = navigator.connection.type;
+   
       //function today(){
         var today = new Date();
         var dd = today.getDate();
@@ -440,6 +442,15 @@ myApp.onPageInit('filter_trip', function (page) {
         $$("#trip_date").val(today);
      
      $$("#submit_button").click(function (data) {
+		
+		
+		
+		if(navigator.connection.type == "UNKNOWN" || navigator.connection.type == "NONE")
+		{
+			alert("No Internet Connection...");
+			return false;
+		}
+		 
         myApp.showIndicator();
         $trimp_from = $$('#tfrom').val();
         $trip_to = $$('#tto').val();
@@ -534,6 +545,11 @@ myApp.onPageInit('new_trip', function (page) {
     $$("#tdate").val(today);
    
 $$("#submit_button").click(function(){
+	if(navigator.connection.type == "UNKNOWN" || navigator.connection.type == "NONE")
+	{
+		alert("No Internet Connection...");
+		return false;
+	}
     myApp.showIndicator();
 
     $trimp_from = $$('#tfrom').val();
@@ -591,7 +607,12 @@ myApp.onPageInit('form', function (page) {
 //$$('form.ajax-submit').on('form:success', function (e) {
    // $$('form.ajax-submit').submit(function(e){
     $$("#submit_button").click(function (data) {
-
+	if(navigator.connection.type == "UNKNOWN" || navigator.connection.type == "NONE")
+	{
+		alert("No Internet Connection...");
+		return false;
+	}
+		
         var isvalid = true;
    // var xhr = e.detail.xhr; // actual XHR object
    myApp.showIndicator();
