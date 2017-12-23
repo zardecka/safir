@@ -9,7 +9,7 @@
     </author>
     <content src="index.html" />
     <access origin="*" />
-	 <icon src="res/icon.png"/>
+	 <!-- <icon src="res/icon.png"/> -->
 	 <!-- <icon src="res/ios/icon.png" platform="ios" width="192" height="192" density="mdpi" /> -->
        <!-- <platform name="android">
            
@@ -21,12 +21,11 @@
 
        
       
-        <icon src="icon-60@3x.png" platform="ios" width="180" height="180" />
-
+        <icon src="res/ios/icon-60@3x.png" platform="ios" width="180" height="180" />
         <!-- iPhone 6 -->
-        <splash src="Default-667h@2x.png" platform="ios" width="750" height="1334" />
-        <splash src="Default-Portrait-736h@3x.png" platform="ios" width="1242" height="2208" />
-        <splash src="Default-Landscape-736h@3x.png" platform="ios" width="2208" height="1242" />
+        <splash src="res/ios/Default-667h.png" platform="ios" width="750" height="1334" />
+        <splash src="res/ios/Default-736h.png" platform="ios" width="1242" height="2208" />
+        <splash src="res/ios/Default-Landscape-736h.png" platform="ios" width="2208" height="1242" />
 
        <!--<platform name="ios">-->
         <!-- iOS 8.0+ -->
