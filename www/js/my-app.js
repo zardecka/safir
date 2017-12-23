@@ -1009,7 +1009,7 @@ myApp.onPageInit('captain_profile', function (page) {
             $$("#model").val(resp.captain_data.model);
             $$("#year").val(resp.captain_data.year);
             
-            $$("#imgArea").attr("src", carimage + resp.captain_data.image);
+            $$("#imgArea").attr("src", carimage + resp.captain_data.image + '#'  + new Date().getTime());
         },
         error: function (data) {
             myApp.hideIndicator();
