@@ -24,7 +24,7 @@ var upload_image = baseURL + 'index.php/captain/upload_image/';
 var carimage = baseURL + 'images/';
 var googleplay = 'https://play.google.com/store/apps/details?id=com.phonegap.safir';
 var appstore = '';
-var currentVersion = 13;
+var currentVersion = 15;
 // Add view
 var mainView = myApp.addView('.view-main', {
     // Because we use fixed-through navbar we can enable dynamic navbar
@@ -136,21 +136,21 @@ myApp.onPageInit('index', function (page) {
   }
    // });
 
-        $$('input[type=checkbox]').change(
-            function () {
+    $$('input[type=checkbox]').change(
+        function () {
 
-                if($$('input[type=checkbox]:checked').length > 0)
-                {
-                    $$("#close_terms").removeAttr('disabled');//.prop("disabled", false);
-                 
-                    window.localStorage.setItem("agreed",true);
+            if($$('input[type=checkbox]:checked').length > 0)
+            {
+                $$("#close_terms").removeAttr('disabled');//.prop("disabled", false);
+                
+                window.localStorage.setItem("agreed",true);
 
-                }else{
-                    $$("#close_terms").attr("disabled", "disabled");
-                    
-                }
-              
-            });
+            }else{
+                $$("#close_terms").attr("disabled", "disabled");
+                
+            }
+            
+        });
 
   $$(document).on("click",".share_app" , function(){
       var deviceType = (navigator.userAgent.match(/iPad/i)) == "iPad" ? "iPad" : (navigator.userAgent.match(/iPhone/i)) == "iPhone" ? "iPhone" : (navigator.userAgent.match(/Android/i)) == "Android" ? "Android" : (navigator.userAgent.match(/BlackBerry/i)) == "BlackBerry" ? "BlackBerry" : "null";
