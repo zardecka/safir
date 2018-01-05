@@ -24,7 +24,7 @@ var upload_image = baseURL + 'index.php/captain/upload_image/';
 var carimage = baseURL + 'images/';
 var googleplay = 'https://play.google.com/store/apps/details?id=com.phonegap.safir';
 var appstore = '';
-var currentVersion = 13;
+var currentVersion = 15;
 // Add view
 var mainView = myApp.addView('.view-main', {
     // Because we use fixed-through navbar we can enable dynamic navbar
@@ -136,21 +136,21 @@ myApp.onPageInit('index', function (page) {
   }
    // });
 
-        $$('input[type=checkbox]').change(
-            function () {
+    $$('input[type=checkbox]').change(
+        function () {
 
-                if($$('input[type=checkbox]:checked').length > 0)
-                {
-                    $$("#close_terms").removeAttr('disabled');//.prop("disabled", false);
-                 
-                    window.localStorage.setItem("agreed",true);
+            if($$('input[type=checkbox]:checked').length > 0)
+            {
+                $$("#close_terms").removeAttr('disabled');//.prop("disabled", false);
+                
+                window.localStorage.setItem("agreed",true);
 
-                }else{
-                    $$("#close_terms").attr("disabled", "disabled");
-                    
-                }
-              
-            });
+            }else{
+                $$("#close_terms").attr("disabled", "disabled");
+                
+            }
+            
+        });
 
   $$(document).on("click",".share_app" , function(){
       var deviceType = (navigator.userAgent.match(/iPad/i)) == "iPad" ? "iPad" : (navigator.userAgent.match(/iPhone/i)) == "iPhone" ? "iPhone" : (navigator.userAgent.match(/Android/i)) == "Android" ? "Android" : (navigator.userAgent.match(/BlackBerry/i)) == "BlackBerry" ? "BlackBerry" : "null";
@@ -339,7 +339,7 @@ myApp.onPageInit('my_trips', function (page) {
                            $$('#tripsul').append('<li>'+
                       //  trip_context = trip_context + '<li>' +
                             '<a href="trip_detail.html?tripid=' + item.id + '" data-reload="true" class="item-link item-content">' +
-                               '<div class="item-media"><img src="' + carimage + item.carimage + '" width="80"></div>' +
+                               '<div class="item-media"><img src="' + carimage + item.carimage  + '?=' + new Date().getTime() +'" width="80"></div>' +
                             '<div class="item-inner">' +
                             '<div class="item-title-row">' +
                             '<div class="item-title cityfromto"> ' + item.cfrom + '->' + item.cto + '</div>' +
@@ -420,8 +420,6 @@ myApp.onPageInit('enter_code', function (page) {
 });
 myApp.onPageInit('filter_trip', function (page) {
    
-  //var networkState = navigator.connection.type;
-   
       //function today(){
         var today = new Date();
         var dd = today.getDate();
@@ -442,15 +440,6 @@ myApp.onPageInit('filter_trip', function (page) {
         $$("#trip_date").val(today);
      
      $$("#submit_button").click(function (data) {
-		
-		
-		
-		if(navigator.connection.type == "UNKNOWN" || navigator.connection.type == "NONE")
-		{
-			alert("No Internet Connection...");
-			return false;
-		}
-		 
         myApp.showIndicator();
         $trimp_from = $$('#tfrom').val();
         $trip_to = $$('#tto').val();
@@ -481,7 +470,7 @@ myApp.onPageInit('filter_trip', function (page) {
                         //   $$('#tripsul').append('<li>'+
                         trip_context = trip_context + '<li>'+
                            '<a href="trip_detail.html?tripid='+item.id+'" data-reload="true" class="item-link item-content">'+
-                            '<div class="item-media"><img src="' +carimage+item.carimage+'" width="80"></div>'+
+                            '<div class="item-media"><img src="' + carimage + item.carimage + '?=' +new Date().getTime()+'" width="80"></div>'+
                              '<div class="item-inner">'+
                                '<div class="item-title-row">'+
                                  '<div class="item-title cityfromto"> '+item.cfrom+'->'+item.cto+'</div>'+
@@ -545,11 +534,6 @@ myApp.onPageInit('new_trip', function (page) {
     $$("#tdate").val(today);
    
 $$("#submit_button").click(function(){
-	if(navigator.connection.type == "UNKNOWN" || navigator.connection.type == "NONE")
-	{
-		alert("No Internet Connection...");
-		return false;
-	}
     myApp.showIndicator();
 
     $trimp_from = $$('#tfrom').val();
@@ -607,12 +591,7 @@ myApp.onPageInit('form', function (page) {
 //$$('form.ajax-submit').on('form:success', function (e) {
    // $$('form.ajax-submit').submit(function(e){
     $$("#submit_button").click(function (data) {
-	if(navigator.connection.type == "UNKNOWN" || navigator.connection.type == "NONE")
-	{
-		alert("No Internet Connection...");
-		return false;
-	}
-		
+
         var isvalid = true;
    // var xhr = e.detail.xhr; // actual XHR object
    myApp.showIndicator();
@@ -1030,7 +1009,8 @@ myApp.onPageInit('captain_profile', function (page) {
             $$("#model").val(resp.captain_data.model);
             $$("#year").val(resp.captain_data.year);
             
-            $$("#imgArea").attr("src", carimage + resp.captain_data.image);
+            $$("#imgArea").attr("src", carimage + resp.captain_data.image + '#' + new Date().getTime());
+//            $$("#imgArea").attr("src", carimage + resp.captain_data.image + '#'  + new Date().getTime());
         },
         error: function (data) {
             myApp.hideIndicator();
