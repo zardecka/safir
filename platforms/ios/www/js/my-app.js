@@ -719,7 +719,7 @@ $fileURI = $$('#imgArea').attr('src');
        // alert(encodeURI(fileURI))
         var options = new FileUploadOptions();
         options.fileKey = "uploadfile";
-        options.fileName ='myimage444'; // fileURI.substr(fileURI.lastIndexOf('/') + 1);
+        options.fileName ='tmp_name'; // fileURI.substr(fileURI.lastIndexOf('/') + 1);
         options.mimeType = "image/jpeg";
         options.params = {}; // if we need to send parameters to the server request
         var ft = new FileTransfer();
@@ -739,13 +739,16 @@ $fileURI = $$('#imgArea').attr('src');
 
 
     function upload_car_image(captain_id){
+
+        alert(captain_id);
+
         var fileURI = $$('#imgArea').attr('src');
        
         var options = new FileUploadOptions();
         options.fileKey = "uploadfile";
-        options.fileName = 'myimage444'; // fileURI.substr(fileURI.lastIndexOf('/') + 1);
+        options.fileName = 'tmp_name'; // fileURI.substr(fileURI.lastIndexOf('/') + 1);
         options.mimeType = "image/jpeg";
-        options.params = { captain_id: captain_id}; // if we need to send parameters to the server request
+       // options.params = { captain_id: captain_id}; // if we need to send parameters to the server request
         var ft = new FileTransfer();
 
         var win = function (r) {
@@ -757,11 +760,18 @@ $fileURI = $$('#imgArea').attr('src');
         }
 
         var fail = function (error) {
-            alert('Ups. Something wrong happens!' + error);
+           // alert('Ups. Something wrong happens!' + error);
            // console.log('Ups. Something wrong happens!' + error);
+
+            mainView.router.loadPage({
+                url: 'enter_code.html?captain_id=' + captain_id,
+                ignoreCache: true,
+                reload: true
+            });
+            
         }
 
-        ft.upload(fileURI, encodeURI(upload_image), win, fail, options);
+        ft.upload(fileURI, encodeURI(upload_image + '/' + captain_id), win, fail, options);
         console.log("khlas done!");
     }
    
@@ -815,7 +825,7 @@ $fileURI = $$('#imgArea').attr('src');
 
             var options = new FileUploadOptions();
             options.fileKey = "uploadfile";
-            options.fileName = "tttyy6"; //  fileURI.substr(fileURI.lastIndexOf('/') + 1);
+            options.fileName = "tmp_name"; //  fileURI.substr(fileURI.lastIndexOf('/') + 1);
             options.mimeType = "image/jpeg";
             options.params = {}; // if we need to send parameters to the server request
             var ft = new FileTransfer();
@@ -1088,7 +1098,7 @@ myApp.onPageInit('captain_profile', function (page) {
 
             var options = new FileUploadOptions();
             options.fileKey = "uploadfile";
-            options.fileName = "tttyy6"; //  fileURI.substr(fileURI.lastIndexOf('/') + 1);
+            options.fileName = "tmp_name"; //  fileURI.substr(fileURI.lastIndexOf('/') + 1);
             options.mimeType = "image/jpeg";
             options.params = {}; // if we need to send parameters to the server request
             var ft = new FileTransfer();
@@ -1105,7 +1115,7 @@ myApp.onPageInit('captain_profile', function (page) {
 
         var options = new FileUploadOptions();
         options.fileKey = "uploadfile";
-        options.fileName = 'myimage444'; // fileURI.substr(fileURI.lastIndexOf('/') + 1);
+        options.fileName = 'tmp_name'; // fileURI.substr(fileURI.lastIndexOf('/') + 1);
         options.mimeType = "image/jpeg";
         options.params = { captain_id: captain_id }; // if we need to send parameters to the server request
         var ft = new FileTransfer();
@@ -1125,7 +1135,7 @@ myApp.onPageInit('captain_profile', function (page) {
             console.log('Ups. Something wrong happens!' + error);
         }
 
-        ft.upload(fileURI, encodeURI(upload_image), win, fail, options);
+        ft.upload(fileURI, encodeURI(upload_image + '/' + captain_id), win, fail, options);
         console.log("khlas done!");
     }
 
