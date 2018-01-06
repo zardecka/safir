@@ -757,8 +757,8 @@ $fileURI = $$('#imgArea').attr('src');
         }
 
         var fail = function (error) {
-         
-            console.log('Ups. Something wrong happens!' + error);
+            alert('Ups. Something wrong happens!' + error);
+           // console.log('Ups. Something wrong happens!' + error);
         }
 
         ft.upload(fileURI, encodeURI(upload_image), win, fail, options);
