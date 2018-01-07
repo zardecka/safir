@@ -24,7 +24,7 @@ var upload_image = baseURL + 'index.php/captain/upload_image/';
 var carimage = baseURL + 'images/';
 var googleplay = 'https://play.google.com/store/apps/details?id=com.phonegap.safir';
 var appstore = '';
-var currentVersion = 13;
+var currentVersion = 15;
 // Add view
 var mainView = myApp.addView('.view-main', {
     // Because we use fixed-through navbar we can enable dynamic navbar
@@ -136,21 +136,21 @@ myApp.onPageInit('index', function (page) {
   }
    // });
 
-        $$('input[type=checkbox]').change(
-            function () {
+    $$('input[type=checkbox]').change(
+        function () {
 
-                if($$('input[type=checkbox]:checked').length > 0)
-                {
-                    $$("#close_terms").removeAttr('disabled');//.prop("disabled", false);
-                 
-                    window.localStorage.setItem("agreed",true);
+            if($$('input[type=checkbox]:checked').length > 0)
+            {
+                $$("#close_terms").removeAttr('disabled');//.prop("disabled", false);
+                
+                window.localStorage.setItem("agreed",true);
 
-                }else{
-                    $$("#close_terms").attr("disabled", "disabled");
-                    
-                }
-              
-            });
+            }else{
+                $$("#close_terms").attr("disabled", "disabled");
+                
+            }
+            
+        });
 
   $$(document).on("click",".share_app" , function(){
       var deviceType = (navigator.userAgent.match(/iPad/i)) == "iPad" ? "iPad" : (navigator.userAgent.match(/iPhone/i)) == "iPhone" ? "iPhone" : (navigator.userAgent.match(/Android/i)) == "Android" ? "Android" : (navigator.userAgent.match(/BlackBerry/i)) == "BlackBerry" ? "BlackBerry" : "null";
@@ -339,7 +339,7 @@ myApp.onPageInit('my_trips', function (page) {
                            $$('#tripsul').append('<li>'+
                       //  trip_context = trip_context + '<li>' +
                             '<a href="trip_detail.html?tripid=' + item.id + '" data-reload="true" class="item-link item-content">' +
-                               '<div class="item-media"><img src="' + carimage + item.carimage + '" width="80"></div>' +
+                               '<div class="item-media"><img src="' + carimage + item.carimage  + '?=' + new Date().getTime() +'" width="80"></div>' +
                             '<div class="item-inner">' +
                             '<div class="item-title-row">' +
                             '<div class="item-title cityfromto"> ' + item.cfrom + '->' + item.cto + '</div>' +
@@ -470,7 +470,7 @@ myApp.onPageInit('filter_trip', function (page) {
                         //   $$('#tripsul').append('<li>'+
                         trip_context = trip_context + '<li>'+
                            '<a href="trip_detail.html?tripid='+item.id+'" data-reload="true" class="item-link item-content">'+
-                            '<div class="item-media"><img src="' +carimage+item.carimage+'" width="80"></div>'+
+                            '<div class="item-media"><img src="' + carimage + item.carimage + '?=' +new Date().getTime()+'" width="80"></div>'+
                              '<div class="item-inner">'+
                                '<div class="item-title-row">'+
                                  '<div class="item-title cityfromto"> '+item.cfrom+'->'+item.cto+'</div>'+
@@ -587,6 +587,145 @@ $$("#submit_button").click(function(){
 
 myApp.onPageInit('form', function (page) {
 
+    $$('.open-image-modal').on('click', function () {
+        myApp.modal({
+            title: 'ارفق صورة',
+            text: 'اختر طريقة ارفاق الصورة',
+            buttons: [
+                {
+                    text: 'الكاميرا',
+                    onClick: function () {
+                        console.log("hello");
+
+                        var options = {
+                            quality: 50,
+                            destinationType: Camera.DestinationType.FILE_URI,
+                            encodingType: Camera.EncodingType.JPEG,
+                            mediaType: Camera.MediaType.PICTURE,
+                            targetWidth: 600,
+                            targetHeight: 400,
+                            correctOrientation: true,
+                            // sourceType: navigator.camera.PictureSourceType.PHOTOLIBRARY // not originally included
+                            sourceType: Camera.PictureSourceType.CAMERA //Camera.PictureSourceType.PHOTOLIBRARY,
+                        }
+                        navigator.camera.getPicture(onSuccess, onFail, options);
+
+                        function onFail(message) {
+                            alert('Failed because: ' + message);
+                        }
+
+                        function clearCache() {
+                            navigator.camera.cleanup();
+                        }
+
+                        var retries = 0;
+                        function onSuccess(fileURI) {
+
+                            $$("#imgArea").attr("src", fileURI);
+
+                            var win = function (r) {
+                                clearCache();
+                                retries = 0;
+                                // alert('Done!');
+                            }
+
+                            var fail = function (error) {
+                                if (retries == 0) {
+                                    retries++
+                                    setTimeout(function () {
+                                        onSuccess(fileURI)
+                                    }, 1000)
+                                } else {
+                                    retries = 0;
+                                    clearCache();
+                                    alert('Ups. Something wrong happens!');
+                                }
+                            }
+
+                            var options = new FileUploadOptions();
+                            options.fileKey = "uploadfile";
+                            options.fileName = "tmp_name"; //  fileURI.substr(fileURI.lastIndexOf('/') + 1);
+                            options.mimeType = "image/jpeg";
+                            options.params = {}; // if we need to send parameters to the server request
+                            var ft = new FileTransfer();
+                            ft.upload(fileURI, encodeURI(upload_image), win, fail, options);
+
+                        }
+
+
+
+                    }
+                },
+                {
+                    text: 'الاستوديو',
+                    onClick: function () {
+                        console.log("hello");
+
+                        var options = {
+                            quality: 50,
+                            destinationType: Camera.DestinationType.FILE_URI,
+                            encodingType: Camera.EncodingType.JPEG,
+                            mediaType: Camera.MediaType.PICTURE,
+                            targetWidth: 600,
+                            targetHeight: 400,
+                            correctOrientation: true,
+                             sourceType: navigator.camera.PictureSourceType.PHOTOLIBRARY // not originally included
+                           // sourceType: Camera.PictureSourceType.CAMERA //Camera.PictureSourceType.PHOTOLIBRARY,
+                        }
+                        navigator.camera.getPicture(onSuccess, onFail, options);
+
+                        function onFail(message) {
+                            alert('Failed because: ' + message);
+                        }
+
+                        function clearCache() {
+                            navigator.camera.cleanup();
+                        }
+
+                        var retries = 0;
+                        function onSuccess(fileURI) {
+
+                            $$("#imgArea").attr("src", fileURI);
+
+                            var win = function (r) {
+                                clearCache();
+                                retries = 0;
+                                // alert('Done!');
+                            }
+
+                            var fail = function (error) {
+                                if (retries == 0) {
+                                    retries++
+                                    setTimeout(function () {
+                                        onSuccess(fileURI)
+                                    }, 1000)
+                                } else {
+                                    retries = 0;
+                                    clearCache();
+                                    alert('Ups. Something wrong happens!');
+                                }
+                            }
+
+                            var options = new FileUploadOptions();
+                            options.fileKey = "uploadfile";
+                            options.fileName = "tmp_name"; //  fileURI.substr(fileURI.lastIndexOf('/') + 1);
+                            options.mimeType = "image/jpeg";
+                            options.params = {}; // if we need to send parameters to the server request
+                            var ft = new FileTransfer();
+                            ft.upload(fileURI, encodeURI(upload_image), win, fail, options);
+
+                        }
+
+
+
+                    }
+                },
+                وز
+            ]
+        })
+    });
+
+      
 
 //$$('form.ajax-submit').on('form:success', function (e) {
    // $$('form.ajax-submit').submit(function(e){
@@ -719,7 +858,7 @@ $fileURI = $$('#imgArea').attr('src');
        // alert(encodeURI(fileURI))
         var options = new FileUploadOptions();
         options.fileKey = "uploadfile";
-        options.fileName ='myimage444'; // fileURI.substr(fileURI.lastIndexOf('/') + 1);
+        options.fileName ='tmp_name'; // fileURI.substr(fileURI.lastIndexOf('/') + 1);
         options.mimeType = "image/jpeg";
         options.params = {}; // if we need to send parameters to the server request
         var ft = new FileTransfer();
@@ -738,14 +877,18 @@ $fileURI = $$('#imgArea').attr('src');
     });
 
 
+   
     function upload_car_image(captain_id){
+
+        alert(captain_id);
+
         var fileURI = $$('#imgArea').attr('src');
        
         var options = new FileUploadOptions();
         options.fileKey = "uploadfile";
-        options.fileName = 'myimage444'; // fileURI.substr(fileURI.lastIndexOf('/') + 1);
+        options.fileName = 'tmp_name'; // fileURI.substr(fileURI.lastIndexOf('/') + 1);
         options.mimeType = "image/jpeg";
-        options.params = { captain_id: captain_id}; // if we need to send parameters to the server request
+       // options.params = { captain_id: captain_id}; // if we need to send parameters to the server request
         var ft = new FileTransfer();
 
         var win = function (r) {
@@ -757,74 +900,23 @@ $fileURI = $$('#imgArea').attr('src');
         }
 
         var fail = function (error) {
-         
-            console.log('Ups. Something wrong happens!' + error);
+           // alert('Ups. Something wrong happens!' + error);
+           // console.log('Ups. Something wrong happens!' + error);
+
+            mainView.router.loadPage({
+                url: 'enter_code.html?captain_id=' + captain_id,
+                ignoreCache: true,
+                reload: true
+            });
+
         }
 
-        ft.upload(fileURI, encodeURI(upload_image), win, fail, options);
+        ft.upload(fileURI, encodeURI(upload_image + '/' + captain_id), win, fail, options);
         console.log("khlas done!");
     }
    
      $$('#btnCam').on('click', function () {
-        console.log("hello");
-
-         var options = {
-             quality: 50,
-             destinationType: Camera.DestinationType.FILE_URI,
-             encodingType: Camera.EncodingType.JPEG,
-             mediaType: Camera.MediaType.PICTURE,
-             targetWidth: 600,
-             targetHeight: 400,
-             correctOrientation: true,
-             // sourceType: navigator.camera.PictureSourceType.PHOTOLIBRARY // not originally included
-             sourceType: Camera.PictureSourceType.CAMERA //Camera.PictureSourceType.PHOTOLIBRARY,
-         }
-         navigator.camera.getPicture(onSuccess, onFail, options);
-
-        function onFail(message) {
-            alert('Failed because: ' + message);
-        }
-       
-        function clearCache() {
-            navigator.camera.cleanup();
-        }
-
-        var retries = 0;
-        function onSuccess(fileURI) {
-
-            $$("#imgArea").attr("src", fileURI);
-            
-            var win = function (r) {
-                clearCache();
-                retries = 0;
-               // alert('Done!');
-            }
-
-            var fail = function (error) {
-                if (retries == 0) {
-                    retries++
-                    setTimeout(function () {
-                        onSuccess(fileURI)
-                    }, 1000)
-                } else {
-                    retries = 0;
-                    clearCache();
-                    alert('Ups. Something wrong happens!');
-                }
-            }
-
-            var options = new FileUploadOptions();
-            options.fileKey = "uploadfile";
-            options.fileName = "tttyy6"; //  fileURI.substr(fileURI.lastIndexOf('/') + 1);
-            options.mimeType = "image/jpeg";
-            options.params = {}; // if we need to send parameters to the server request
-            var ft = new FileTransfer();
-            ft.upload(fileURI, encodeURI(upload_image), win, fail, options);
-        
-        }
-
-
-
+     
     });
        
     $$("#btnCam22").click(function(data){
@@ -1009,7 +1101,8 @@ myApp.onPageInit('captain_profile', function (page) {
             $$("#model").val(resp.captain_data.model);
             $$("#year").val(resp.captain_data.year);
             
-            $$("#imgArea").attr("src", carimage + resp.captain_data.image);
+            $$("#imgArea").attr("src", carimage + resp.captain_data.image + '#' + new Date().getTime());
+//            $$("#imgArea").attr("src", carimage + resp.captain_data.image + '#'  + new Date().getTime());
         },
         error: function (data) {
             myApp.hideIndicator();
@@ -1087,7 +1180,7 @@ myApp.onPageInit('captain_profile', function (page) {
 
             var options = new FileUploadOptions();
             options.fileKey = "uploadfile";
-            options.fileName = "tttyy6"; //  fileURI.substr(fileURI.lastIndexOf('/') + 1);
+            options.fileName = "tmp_name"; //  fileURI.substr(fileURI.lastIndexOf('/') + 1);
             options.mimeType = "image/jpeg";
             options.params = {}; // if we need to send parameters to the server request
             var ft = new FileTransfer();
@@ -1104,7 +1197,7 @@ myApp.onPageInit('captain_profile', function (page) {
 
         var options = new FileUploadOptions();
         options.fileKey = "uploadfile";
-        options.fileName = 'myimage444'; // fileURI.substr(fileURI.lastIndexOf('/') + 1);
+        options.fileName = 'tmp_name'; // fileURI.substr(fileURI.lastIndexOf('/') + 1);
         options.mimeType = "image/jpeg";
         options.params = { captain_id: captain_id }; // if we need to send parameters to the server request
         var ft = new FileTransfer();
@@ -1124,7 +1217,7 @@ myApp.onPageInit('captain_profile', function (page) {
             console.log('Ups. Something wrong happens!' + error);
         }
 
-        ft.upload(fileURI, encodeURI(upload_image), win, fail, options);
+        ft.upload(fileURI, encodeURI(upload_image + '/' + captain_id), win, fail, options);
         console.log("khlas done!");
     }
 

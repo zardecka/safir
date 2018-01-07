@@ -587,6 +587,145 @@ $$("#submit_button").click(function(){
 
 myApp.onPageInit('form', function (page) {
 
+    $$('.open-image-modal').on('click', function () {
+        myApp.modal({
+            title: 'ارفق صورة',
+            text: 'اختر طريقة ارفاق الصورة',
+            buttons: [
+                {
+                    text: 'الكاميرا',
+                    onClick: function () {
+                        console.log("hello");
+
+                        var options = {
+                            quality: 50,
+                            destinationType: Camera.DestinationType.FILE_URI,
+                            encodingType: Camera.EncodingType.JPEG,
+                            mediaType: Camera.MediaType.PICTURE,
+                            targetWidth: 600,
+                            targetHeight: 400,
+                            correctOrientation: true,
+                            // sourceType: navigator.camera.PictureSourceType.PHOTOLIBRARY // not originally included
+                            sourceType: Camera.PictureSourceType.CAMERA //Camera.PictureSourceType.PHOTOLIBRARY,
+                        }
+                        navigator.camera.getPicture(onSuccess, onFail, options);
+
+                        function onFail(message) {
+                            alert('Failed because: ' + message);
+                        }
+
+                        function clearCache() {
+                            navigator.camera.cleanup();
+                        }
+
+                        var retries = 0;
+                        function onSuccess(fileURI) {
+
+                            $$("#imgArea").attr("src", fileURI);
+
+                            var win = function (r) {
+                                clearCache();
+                                retries = 0;
+                                // alert('Done!');
+                            }
+
+                            var fail = function (error) {
+                                if (retries == 0) {
+                                    retries++
+                                    setTimeout(function () {
+                                        onSuccess(fileURI)
+                                    }, 1000)
+                                } else {
+                                    retries = 0;
+                                    clearCache();
+                                    alert('Ups. Something wrong happens!');
+                                }
+                            }
+
+                            var options = new FileUploadOptions();
+                            options.fileKey = "uploadfile";
+                            options.fileName = "tmp_name"; //  fileURI.substr(fileURI.lastIndexOf('/') + 1);
+                            options.mimeType = "image/jpeg";
+                            options.params = {}; // if we need to send parameters to the server request
+                            var ft = new FileTransfer();
+                            ft.upload(fileURI, encodeURI(upload_image), win, fail, options);
+
+                        }
+
+
+
+                    }
+                },
+                {
+                    text: 'الاستوديو',
+                    onClick: function () {
+                        console.log("hello");
+
+                        var options = {
+                            quality: 50,
+                            destinationType: Camera.DestinationType.FILE_URI,
+                            encodingType: Camera.EncodingType.JPEG,
+                            mediaType: Camera.MediaType.PICTURE,
+                            targetWidth: 600,
+                            targetHeight: 400,
+                            correctOrientation: true,
+                             sourceType: navigator.camera.PictureSourceType.PHOTOLIBRARY // not originally included
+                           // sourceType: Camera.PictureSourceType.CAMERA //Camera.PictureSourceType.PHOTOLIBRARY,
+                        }
+                        navigator.camera.getPicture(onSuccess, onFail, options);
+
+                        function onFail(message) {
+                            alert('Failed because: ' + message);
+                        }
+
+                        function clearCache() {
+                            navigator.camera.cleanup();
+                        }
+
+                        var retries = 0;
+                        function onSuccess(fileURI) {
+
+                            $$("#imgArea").attr("src", fileURI);
+
+                            var win = function (r) {
+                                clearCache();
+                                retries = 0;
+                                // alert('Done!');
+                            }
+
+                            var fail = function (error) {
+                                if (retries == 0) {
+                                    retries++
+                                    setTimeout(function () {
+                                        onSuccess(fileURI)
+                                    }, 1000)
+                                } else {
+                                    retries = 0;
+                                    clearCache();
+                                    alert('Ups. Something wrong happens!');
+                                }
+                            }
+
+                            var options = new FileUploadOptions();
+                            options.fileKey = "uploadfile";
+                            options.fileName = "tmp_name"; //  fileURI.substr(fileURI.lastIndexOf('/') + 1);
+                            options.mimeType = "image/jpeg";
+                            options.params = {}; // if we need to send parameters to the server request
+                            var ft = new FileTransfer();
+                            ft.upload(fileURI, encodeURI(upload_image), win, fail, options);
+
+                        }
+
+
+
+                    }
+                },
+                وز
+            ]
+        })
+    });
+
+      
 
 //$$('form.ajax-submit').on('form:success', function (e) {
    // $$('form.ajax-submit').submit(function(e){
@@ -738,6 +877,7 @@ $fileURI = $$('#imgArea').attr('src');
     });
 
 
+   
     function upload_car_image(captain_id){
 
         alert(captain_id);
@@ -768,7 +908,7 @@ $fileURI = $$('#imgArea').attr('src');
                 ignoreCache: true,
                 reload: true
             });
-            
+
         }
 
         ft.upload(fileURI, encodeURI(upload_image + '/' + captain_id), win, fail, options);
@@ -776,65 +916,7 @@ $fileURI = $$('#imgArea').attr('src');
     }
    
      $$('#btnCam').on('click', function () {
-        console.log("hello");
-
-         var options = {
-             quality: 50,
-             destinationType: Camera.DestinationType.FILE_URI,
-             encodingType: Camera.EncodingType.JPEG,
-             mediaType: Camera.MediaType.PICTURE,
-             targetWidth: 600,
-             targetHeight: 400,
-             correctOrientation: true,
-             // sourceType: navigator.camera.PictureSourceType.PHOTOLIBRARY // not originally included
-             sourceType: Camera.PictureSourceType.CAMERA //Camera.PictureSourceType.PHOTOLIBRARY,
-         }
-         navigator.camera.getPicture(onSuccess, onFail, options);
-
-        function onFail(message) {
-            alert('Failed because: ' + message);
-        }
-       
-        function clearCache() {
-            navigator.camera.cleanup();
-        }
-
-        var retries = 0;
-        function onSuccess(fileURI) {
-
-            $$("#imgArea").attr("src", fileURI);
-            
-            var win = function (r) {
-                clearCache();
-                retries = 0;
-               // alert('Done!');
-            }
-
-            var fail = function (error) {
-                if (retries == 0) {
-                    retries++
-                    setTimeout(function () {
-                        onSuccess(fileURI)
-                    }, 1000)
-                } else {
-                    retries = 0;
-                    clearCache();
-                    alert('Ups. Something wrong happens!');
-                }
-            }
-
-            var options = new FileUploadOptions();
-            options.fileKey = "uploadfile";
-            options.fileName = "tmp_name"; //  fileURI.substr(fileURI.lastIndexOf('/') + 1);
-            options.mimeType = "image/jpeg";
-            options.params = {}; // if we need to send parameters to the server request
-            var ft = new FileTransfer();
-            ft.upload(fileURI, encodeURI(upload_image), win, fail, options);
-        
-        }
-
-
-
+     
     });
        
     $$("#btnCam22").click(function(data){
