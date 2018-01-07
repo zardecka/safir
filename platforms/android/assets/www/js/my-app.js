@@ -720,7 +720,7 @@ myApp.onPageInit('form', function (page) {
 
                     }
                 },
-                وز
+              
             ]
         })
     });
