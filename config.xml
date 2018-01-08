@@ -10,7 +10,7 @@
     <content src="index.html" />
     <access origin="*" />
 	 <!-- <icon src="res/icon.png"/> -->
-	 < <icon src="res/ios/icon.png" platform="ios" width="192" height="192" density="mdpi" /> >
+	  <icon src="res/ios/icon.png" platform="ios" width="192" height="192" density="mdpi" /> 
        <!-- <platform name="android">
            
             <icon src="res/android/mdpi.png" density="mdpi" />
