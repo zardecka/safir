@@ -48,7 +48,7 @@ myApp.onPageInit('captain_profile', function (page) {
     });
 
 
-    $$('.open-image-modal').on('click', function () {
+    $$('.update-image-modal').on('click', function () {
         myApp.modal({
             title: 'ارفق صورة',
             text: 'اختر طريقة ارفاق الصورة',
@@ -57,7 +57,7 @@ myApp.onPageInit('captain_profile', function (page) {
                     text: 'الكاميرا',
                     onClick: function () {
                         console.log("camera");
-                        $$('#imgArea').on('click', function () {
+                     //   $$('#imgArea').on('click', function () {
                             console.log("hello");
 
                             var options = {
@@ -117,7 +117,7 @@ myApp.onPageInit('captain_profile', function (page) {
 
 
 
-                        });
+                       
                     }
                     
                 },
@@ -125,7 +125,7 @@ myApp.onPageInit('captain_profile', function (page) {
                 {
                     text: 'الاستوديو',
                     onClick: function () {
-                        $$('#imgArea').on('click', function () {
+                     //   $$('#imgArea').on('click', function () {
                             console.log("hello");
 
                             var options = {
@@ -185,7 +185,7 @@ myApp.onPageInit('captain_profile', function (page) {
 
 
 
-                        });
+                      //  });
                     }
 
                 }
