@@ -12,6 +12,7 @@
     </author>
     <content src="index.html" />
     <access origin="*" />
+    <icon density="mdpi" height="192" platform="ios" src="res/ios/icon.png" width="192" />
     <icon height="180" platform="ios" src="res/ios/icon-60@3x.png" width="180" />
     <icon height="60" platform="ios" src="res/ios/icon-60.png" width="60" />
     <icon height="120" platform="ios" src="res/ios/icon-60@2x.png" width="120" />

@@ -86,7 +86,7 @@ myApp.onPageInit('captain_profile', function (page) {
 
                                 $$("#imgArea").attr("src", fileURI);
 
-                                var win = function (r) {
+                               /*  var win = function (r) {
                                     clearCache();
                                     retries = 0;
                                     //alert('Done!');
@@ -112,7 +112,7 @@ myApp.onPageInit('captain_profile', function (page) {
                                 options.params = {}; // if we need to send parameters to the server request
                                 var ft = new FileTransfer();
                                 ft.upload(fileURI, encodeURI(upload_image), win, fail, options);
-
+ */
                             }
 
 
@@ -154,7 +154,7 @@ myApp.onPageInit('captain_profile', function (page) {
 
                                 $$("#imgArea").attr("src", fileURI);
 
-                                var win = function (r) {
+                               /*  var win = function (r) {
                                     clearCache();
                                     retries = 0;
                                     //alert('Done!');
@@ -179,7 +179,7 @@ myApp.onPageInit('captain_profile', function (page) {
                                 options.mimeType = "image/jpeg";
                                 options.params = {}; // if we need to send parameters to the server request
                                 var ft = new FileTransfer();
-                                ft.upload(fileURI, encodeURI(upload_image), win, fail, options);
+                                ft.upload(fileURI, encodeURI(upload_image), win, fail, options); */
 
                             }
 
