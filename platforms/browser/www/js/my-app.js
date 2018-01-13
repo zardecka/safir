@@ -10,7 +10,7 @@ $(document).on('pageInit', '.page[data-page="index"]',  function(e){
 
 // Initialize your app
 var myApp = new Framework7(
-    { ios: true,}
+    { material: true,}
 );
 
 // Export selectors engine
@@ -255,6 +255,10 @@ function createContentPage() {
 }
 
 myApp.onPageInit('login',function(page){
+setLanguage("en");
+$$("#password").attr('placeholder', lng('Password'));
+$$("#email").attr('placeholder', lng('Email'));
+$$("#login_button").val(lng('ok'));
 
 $$("#login_button").click(function(data){
     myApp.showIndicator();
@@ -444,67 +448,77 @@ myApp.onPageInit('filter_trip', function (page) {
         $trimp_from = $$('#tfrom').val();
         $trip_to = $$('#tto').val();
         $trip_date = $$('#trip_date').val();
-        $ttime = $$('#ttime').val();
-        $$.ajax({
-            type: 'POST',
-            url: trips + 'filter_trip/',
-            
-            data:  JSON.stringify ({
-                tfrom: $trimp_from,
-                tto:$trip_to,
-                trip_date:$trip_date,
-                ttime:$ttime
-            }),
-            success: function(data) {
-              
 
-                myApp.hideIndicator();
-                
-                console.log(data.code);
-                if(data.code == 0){
 
-                    var trip_context = '';
+         if ($trip_date === '') {
+             myApp.alert('', "فضلا حدد تاريخ الرحلة  ");
+             isvalid = false;
+             myApp.hideIndicator();
+         }
 
-                    $$.each(data.trips, function(i, item) {            
-                        console.log(item);                
-                        //   $$('#tripsul').append('<li>'+
-                        trip_context = trip_context + '<li>'+
-                           '<a href="trip_detail.html?tripid='+item.id+'" data-reload="true" class="item-link item-content">'+
-                            '<div class="item-media"><img src="' + carimage + item.carimage + '?=' +new Date().getTime()+'" width="80"></div>'+
-                             '<div class="item-inner">'+
-                               '<div class="item-title-row">'+
-                                 '<div class="item-title cityfromto"> '+item.cfrom+'->'+item.cto+'</div>'+
-                                 '<!--div class="item-after">$15</div-->'+
-                               '</div>'+
-                               '<div class="item-subtitle">'+item.car+'</div>'+
-                            '<div class="item-text">' + item.trip_date_name + ' ' + item.trip_date + '</div>' +
-                            '<div class="item-text">' + item.trip_time + '</div>' +
-                               '<div class="item-text">'+item.captain+'</div>'+
-                             '</div>'+
-                           '</a>'+
-                         '</li>';
-                          });
+         else{
+            // $ttime = $$('#ttime').val();
+                $$.ajax({
+                    type: 'POST',
+                    url: trips + 'filter_trip/',
+                    
+                    data:  JSON.stringify ({
+                        tfrom: $trimp_from,
+                        tto:$trip_to,
+                        trip_date:$trip_date,
+                        ttime:$ttime
+                    }),
+                    success: function(data) {
+                    
 
-                       //  console.log(trip_context);
+                        myApp.hideIndicator();
+                        
+                        console.log(data.code);
+                        if(data.code == 0){
 
-                          mainView.router.loadPage({
-                            url: 'trips.html',
-                            ignoreCache: true,
-                            reload: false,
-                            context:{trip_context:trip_context}
-                        }); 
-                }else{
-                    myApp.alert('',data.messaage);
-                }
-               
-            },
-            error: function (data) {
-                myApp.hideIndicator();
-                console.log('An error occurred.');
-                console.log(data);
-            }
-            ,dataType: 'json'
-        }); 
+                            var trip_context = '';
+
+                            $$.each(data.trips, function(i, item) {            
+                                console.log(item);                
+                                //   $$('#tripsul').append('<li>'+
+                                trip_context = trip_context + '<li>'+
+                                '<a href="trip_detail.html?tripid='+item.id+'" data-reload="true" class="item-link item-content">'+
+                                    '<div class="item-media"><img src="' + carimage + item.carimage + '?=' +new Date().getTime()+'" width="80"></div>'+
+                                    '<div class="item-inner">'+
+                                    '<div class="item-title-row">'+
+                                        '<div class="item-title cityfromto"> '+item.cfrom+'->'+item.cto+'</div>'+
+                                        '<!--div class="item-after">$15</div-->'+
+                                    '</div>'+
+                                    '<div class="item-subtitle">'+item.car+'</div>'+
+                                    '<div class="item-text">' + item.trip_date_name + ' ' + item.trip_date + '</div>' +
+                                    '<div class="item-text">' + item.trip_time + '</div>' +
+                                    '<div class="item-text">'+item.captain+'</div>'+
+                                    '</div>'+
+                                '</a>'+
+                                '</li>';
+                                });
+
+                            //  console.log(trip_context);
+
+                                mainView.router.loadPage({
+                                    url: 'trips.html',
+                                    ignoreCache: true,
+                                    reload: false,
+                                    context:{trip_context:trip_context}
+                                }); 
+                        }else{
+                            myApp.alert('',data.messaage);
+                        }
+                    
+                    },
+                    error: function (data) {
+                        myApp.hideIndicator();
+                        console.log('An error occurred.');
+                        console.log(data);
+                    }
+                    ,dataType: 'json'
+                }); 
+        } // else close
      });
 });
 
@@ -621,7 +635,7 @@ myApp.onPageInit('form', function (page) {
                         var retries = 0;
                         function onSuccess(fileURI) {
 
-                            $$("#imgArea").attr("src", fileURI);
+                        /*     $$("#imgArea").attr("src", fileURI);
 
                             var win = function (r) {
                                 clearCache();
@@ -649,7 +663,7 @@ myApp.onPageInit('form', function (page) {
                             options.params = {}; // if we need to send parameters to the server request
                             var ft = new FileTransfer();
                             ft.upload(fileURI, encodeURI(upload_image), win, fail, options);
-
+ */
                         }
 
 
@@ -686,7 +700,7 @@ myApp.onPageInit('form', function (page) {
                         function onSuccess(fileURI) {
 
                             $$("#imgArea").attr("src", fileURI);
-
+/* 
                             var win = function (r) {
                                 clearCache();
                                 retries = 0;
@@ -713,7 +727,7 @@ myApp.onPageInit('form', function (page) {
                             options.params = {}; // if we need to send parameters to the server request
                             var ft = new FileTransfer();
                             ft.upload(fileURI, encodeURI(upload_image), win, fail, options);
-
+ */
                         }
 
 
@@ -1236,3 +1250,10 @@ myApp.onPageInit('rating', function (page) {
         return stars;
         
     }
+
+
+myApp.onPageInit('setting', function (page) {
+    
+     
+    
+});

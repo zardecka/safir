@@ -255,6 +255,10 @@ function createContentPage() {
 }
 
 myApp.onPageInit('login',function(page){
+setLanguage("en");
+$$("#password").attr('placeholder', lng('Password'));
+$$("#email").attr('placeholder', lng('Email'));
+$$("#login_button").val(lng('ok'));
 
 $$("#login_button").click(function(data){
     myApp.showIndicator();
@@ -1246,3 +1250,10 @@ myApp.onPageInit('rating', function (page) {
         return stars;
         
     }
+
+
+myApp.onPageInit('setting', function (page) {
+    
+     
+    
+});
