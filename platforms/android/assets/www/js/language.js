@@ -6,7 +6,7 @@ var langTrans = {
     "Email":{en:"Email",ar:"البريد الإلكتروني "},
     "Password":{en:"Password",ar:"كلمة المرور "},
     "cancel":{en:"Cancel",ar:"الغاء"},
-    "ok":{en:"OK",ar:"موافق"},
+    "ok":{en:"OK",ar:"موافق"}
     
 
 };

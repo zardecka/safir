@@ -465,8 +465,8 @@ myApp.onPageInit('filter_trip', function (page) {
                     data:  JSON.stringify ({
                         tfrom: $trimp_from,
                         tto:$trip_to,
-                        trip_date:$trip_date,
-                        ttime:$ttime
+                        trip_date:$trip_date
+                       
                     }),
                     success: function(data) {
                     
