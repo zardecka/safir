@@ -8,7 +8,7 @@ var langTrans = {
     "cancel":{en:"Cancel",ar:"الغاء"},
     "ok":{en:"OK",ar:"موافق"}
     
-
+ 
 };
 
 var defaultLanguage = "ar";
