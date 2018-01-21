@@ -1,4 +1,6 @@
 var langTrans = {
+
+    //login
     "ID_APP_TITLE": {en:"3 Tires Calc",ar:"3й Шинный Кальк"},
     "Tires Calc": {ar:"3 Шинный Кальк"},
     "Manage topics": {ar:"Управление темами"},
@@ -6,7 +8,24 @@ var langTrans = {
     "Email":{en:"Email",ar:"البريد الإلكتروني "},
     "Password":{en:"Password",ar:"كلمة المرور "},
     "cancel":{en:"Cancel",ar:"الغاء"},
-    "ok":{en:"OK",ar:"موافق"}
+    "ok":{en:"OK",ar:"موافق"},
+    
+    //register
+    "registration":{en:"Registration",ar:"التسجيل"},
+    "registerascaptain":{en:"Register as a Captain",ar:"التسجيل في الكابتنية"},
+    "name":{en:"Name",ar:"الاسم"},
+    "yourname":{en:"Your Name",ar:"اسمك"},
+
+    "mobile":{en:"Mobile",ar:"رقم الجوال"},
+    "brand":{en:"Car Brand",ar:"العلامة التجارية للسيارة"},
+    "carname":{en:"Car Name",ar:"اسم السيارة"},
+    "brand":{en:"Toyota",ar:"تويوتا"},
+    "model":{en:"Corolla",ar:"كورولا"},
+    "madeyear":{en:"Made Year",ar:"سنة الصنع"},
+    "carphoto":{en:"Car Photo",ar:"صورة السيارة"},
+    "register":{en:"Register",ar:"سجل"},
+    "ok":{en:"OK",ar:"موافق"},
+    
     
 
 };

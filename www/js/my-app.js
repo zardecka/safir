@@ -600,7 +600,13 @@ $$("#submit_button").click(function(){
 
 
 myApp.onPageInit('form', function (page) {
-
+    $$("#name").attr('placeholder', lng('yourname'));
+    $$("#email").attr('placeholder', lng('Email'));
+    $$("#password").attr('placeholder', lng('Password'));
+    $$("#brand").attr('placeholder', lng('brand'));
+    $$("#model").attr('placeholder', lng('model'));
+    $$("#email").attr('placeholder', lng('yourname'));
+  $$("#submit_button").val(lng('ok'));
     $$('.open-image-modal').on('click', function () {
         myApp.modal({
             title: 'ارفق صورة',
