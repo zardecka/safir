@@ -25,6 +25,7 @@ var carimage = baseURL + 'images/';
 var googleplay = 'https://play.google.com/store/apps/details?id=com.phonegap.safir';
 var appstore = '';
 var currentVersion = 15;
+var isIndexPage = true;
 // Add view
 var mainView = myApp.addView('.view-main', {
     // Because we use fixed-through navbar we can enable dynamic navbar
@@ -71,17 +72,25 @@ function onDeviceReady() {
 } 
 
 function onBackKeyDown() {
-    mainView.router.loadPage({
-        url: 'index.html',
-        ignoreCache: true,
-        reload: true
-    });
 
+    if (window.localStorage.getItem("isIndexPage")){
+       // alert(exit);
+        navigator.app.exitApp();
+    }
+    else{
+        window.localStorage.setItem("isIndexPage", true);
+        mainView.router.loadPage({
+            url: 'index.html',
+            ignoreCache: true,
+            reload: true
+        });
+    }
+   
 }
 
 // Callbacks to run specific code for specific pages, for example for About page:
 myApp.onPageInit('about', function (page) {
- 
+    window.localStorage.setItem("isIndexPage",false);
    saveData();
    console.log("after");
    
@@ -171,11 +180,11 @@ myApp.onPageInit('index', function (page) {
           sharelink = 'https://play.google.com/store/apps/details?id=com.phonegap.safir';          
        }        
        var options = {
-           message: 'حمل تطبيق سافر واستمتع بتجربة سفر مميزة!', // not supported on some apps (Facebook, Instagram)
-           subject: 'مشاركة التطبيق', // fi. for email
+           message: lng('downloadsafer'), // not supported on some apps (Facebook, Instagram)
+           subject: lng('shareapp'), // fi. for email
            files: ['', ''], // an array of filenames either locally or remotely
            url: sharelink,
-           chooserTitle: 'شارك التطبيق على ' // Android only, you can override the default share sheet title
+           chooserTitle: lng('shareappon') // Android only, you can override the default share sheet title
        }
 
        var onSuccess = function (result) {
@@ -193,6 +202,7 @@ myApp.onPageInit('index', function (page) {
 
    $$(document).on("click",".list-block>ul.captain_menu>.logout", function() {
         window.localStorage.setItem("loggedIn", 0);
+        window.localStorage.setItem("isIndexPage",true);
         window.localStorage.removeItem("email");
         //mainView.router.loadPage("index.html");
        // router.forward("index.html");
@@ -263,6 +273,7 @@ function createContentPage() {
 }
 
 myApp.onPageInit('login',function(page){
+    window.localStorage.setItem("isIndexPage", false);
     setLanguage(window.localStorage.getItem("current_language"));
 $$("#password").attr('placeholder', lng('Password'));
 $$("#email").attr('placeholder', lng('Email'));
@@ -330,6 +341,7 @@ $$("#login_button").click(function(data){
 
 
 myApp.onPageInit('my_trips', function (page) {
+    window.localStorage.setItem("isIndexPage", false);
     setLanguage(window.localStorage.getItem("current_language"));
    // alert("I am here2");
         $$.ajax({
@@ -390,6 +402,7 @@ myApp.onPageInit('my_trips', function (page) {
     });
 
 myApp.onPageInit('enter_code', function (page) {
+    window.localStorage.setItem("isIndexPage", false);
    // alert("hello");
     setLanguage(window.localStorage.getItem("current_language"));
   
@@ -435,9 +448,36 @@ myApp.onPageInit('enter_code', function (page) {
     });
 });
 myApp.onPageInit('filter_trip', function (page) {
+    window.localStorage.setItem("isIndexPage", false);
+    isIndexPage = false;
     setLanguage(window.localStorage.getItem("current_language"));
     $$("#trip_date").attr('placeholder', lng('tripdate'));
     $$("#submit_button").val(lng('ok'));
+    $$(".Riyadh").html(lng('Riyadh'));
+    $$(".Jeddah").html(lng('Jeddah'));
+    $$(".Mecca").html(lng('Mecca'));
+    $$(".Dammam").html(lng('Dammam'));
+    $$(".Madina").html(lng('Madina'));
+    $$(".Zahran").html(lng('Zahran'));
+    $$(".Jubail").html(lng('Jubail'));
+    $$(".Alkhobar").html(lng('Alkhobar'));
+    $$(".Qassim").html(lng('Qassim'));
+    $$(".Taif").html(lng('Taif'));
+    $$(".Ihsaa").html(lng('Ihsaa'));
+    $$(".Aseer").html(lng('Aseer'));
+    $$(".Jazan").html(lng('Jazan'));
+    $$(".Najran").html(lng('Najran'));
+    $$(".Tabook").html(lng('Tabook'));
+    $$(".Beesha").html(lng('Beesha'));
+    $$(".Alkharj").html(lng('Alkharj'));
+    $$(".WadiAldawasir").html(lng('WadiAldawasir'));
+    $$(".KhameesMushet").html(lng('KhameesMushet'));
+    $$(".Hail").html(lng('Hail'));
+    $$(".Bahrain").html(lng('Bahrain'));
+    $$(".Yanbu").html(lng('Yanbu'));
+    $$(".Baha").html(lng('Baha'));
+   
+    
       //function today(){
         var today = new Date();
         var dd = today.getDate();
@@ -538,8 +578,35 @@ myApp.onPageInit('filter_trip', function (page) {
 
 
 myApp.onPageInit('new_trip', function (page) {
+    window.localStorage.setItem("isIndexPage", false);
     setLanguage(window.localStorage.getItem("current_language"));
     $$("#submit_button").val(lng('ok'));
+
+    $$(".Riyadh").html(lng('Riyadh'));
+    $$(".Jeddah").html(lng('Jeddah'));
+    $$(".Mecca").html(lng('Mecca'));
+    $$(".Dammam").html(lng('Dammam'));
+    $$(".Madina").html(lng('Madina'));
+    $$(".Zahran").html(lng('Zahran'));
+    $$(".Jubail").html(lng('Jubail'));
+    $$(".Alkhobar").html(lng('Alkhobar'));
+    $$(".Qassim").html(lng('Qassim'));
+    $$(".Taif").html(lng('Taif'));
+    $$(".Ihsaa").html(lng('Ihsaa'));
+    $$(".Aseer").html(lng('Aseer'));
+    $$(".Jazan").html(lng('Jazan'));
+    $$(".Najran").html(lng('Najran'));
+    $$(".Tabook").html(lng('Tabook'));
+    $$(".Beesha").html(lng('Beesha'));
+    $$(".Alkharj").html(lng('Alkharj'));
+    $$(".WadiAldawasir").html(lng('WadiAldawasir'));
+    $$(".KhameesMushet").html(lng('KhameesMushet'));
+    $$(".Hail").html(lng('Hail'));
+    $$(".Bahrain").html(lng('Bahrain'));
+    $$(".Yanbu").html(lng('Yanbu'));
+    $$(".Baha").html(lng('Baha'));
+
+
     if (window.localStorage.getItem("loggedIn") == 1) {
         $$(".list-block>ul.captain_menu").show();
         $$(".list-block>ul.guest_menu").hide();
@@ -615,6 +682,7 @@ $$("#submit_button").click(function(){
 
 
 myApp.onPageInit('form', function (page) {
+    window.localStorage.setItem("isIndexPage", false);
     setLanguage(window.localStorage.getItem("current_language"));
     $$("#submit_button").val(lng('register'));
     $$("#name").attr('placeholder', lng('yourname'));
@@ -996,6 +1064,7 @@ myApp.onPageInit('form', function (page) {
 
 
 myApp.onPageInit('trips', function (page) {
+    window.localStorage.setItem("isIndexPage", false);
     setLanguage(window.localStorage.getItem("current_language"));
     
          $$.ajax({
@@ -1016,6 +1085,7 @@ myApp.onPageInit('trips', function (page) {
                    '</div>'+
                    '<div class="item-subtitle">'+item.car+'</div>'+
                    '<div class="item-text">'+item.captain+'</div>'+
+                   '<div class="item-text">' + item.trip_date_name+'  '+item.trip_time + '</div>' +
                  '</div>'+
                '</a>'+
              '</li>');
@@ -1048,6 +1118,7 @@ myApp.onPageInit('trips', function (page) {
 
 
 myApp.onPageInit('trip_detail', function (page) {
+    window.localStorage.setItem("isIndexPage", false);
     setLanguage(window.localStorage.getItem("current_language"));
         var values = page.query;
         myApp.showIndicator();
@@ -1126,6 +1197,7 @@ myApp.onPageInit('trip_detail', function (page) {
 
 
 myApp.onPageInit('rating', function (page) {
+    window.localStorage.setItem("isIndexPage", false);
     setLanguage(window.localStorage.getItem("current_language"));
     var values = page.query;
 
@@ -1276,6 +1348,7 @@ myApp.onPageInit('rating', function (page) {
 
 
 myApp.onPageInit('settings', function (page) {
+    window.localStorage.setItem("isIndexPage", false);
     setLanguage(window.localStorage.getItem("current_language"));
 
     if (window.localStorage.getItem("current_language") == 'ar'){

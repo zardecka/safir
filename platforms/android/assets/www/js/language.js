@@ -50,7 +50,7 @@ var langTrans = {
     "determinyourdestination": { en: "Determine Your Destination", ar: "حدد وجهتك" },
     "from": { en: "From", ar: "من" },
     "Riyadh": { en: "Riyadh", ar: "الرياض" },
-    "jeddah": { en: "Jeddah", ar: "جدة" },
+    "Jeddah": { en: "Jeddah", ar: "جدة" },
     "Mecca": { en: "Mecca", ar: "مكة المكرمة" },
     "Dammam": { en: "Dammam", ar: "الدمام" },
     "Madina": { en: "Madina", ar: "المدينة المنورة" },
@@ -140,7 +140,7 @@ var langTrans = {
     "reghere": { en: "Register Here", ar: "سجل من هنا" },
     "arabic": { en: "Arabic", ar: "عربي" }, 
     "english": { en: "English", ar: "انجليزي" }, 
-   // "ok": { en: "OK", ar: "موافق" }, 
+    "downloadsafer": { en: "Download Safer App and enjoy a great travel experience!", ar: "حمل تطبيق سافر واستمتع بتجربة سفر مميزة!" }, 
    // "ok": { en: "OK", ar: "موافق" }, 
    // "ok": { en: "OK", ar: "موافق" }, 
    // "ok": { en: "OK", ar: "موافق" },
@@ -198,7 +198,7 @@ function setLanguage(lng, block) {
         //console.log(text + item.attr("orig"));
             //trans = langTrans[item.attr("orig")];
             trans = item.attr("orig");
-            //console.log("Trans: " + trans);
+            console.log("Trans: " + trans);
             if(langTrans[id] !== undefined) {
                 if(langTrans[id][currentLanguage] !== undefined) {
                     trans = langTrans[id][currentLanguage];
