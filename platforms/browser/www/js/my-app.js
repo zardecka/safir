@@ -73,12 +73,12 @@ function onDeviceReady() {
 
 function onBackKeyDown() {
 
-    if (window.localStorage.getItem("isIndexPage")){
+    if (isIndexPage){
        // alert(exit);
         navigator.app.exitApp();
     }
     else{
-        window.localStorage.setItem("isIndexPage", true);
+        isIndexPage = true;
         mainView.router.loadPage({
             url: 'index.html',
             ignoreCache: true,
@@ -91,6 +91,7 @@ function onBackKeyDown() {
 // Callbacks to run specific code for specific pages, for example for About page:
 myApp.onPageInit('about', function (page) {
     window.localStorage.setItem("isIndexPage",false);
+    isIndexPage = false;
    saveData();
    console.log("after");
    
@@ -202,7 +203,7 @@ myApp.onPageInit('index', function (page) {
 
    $$(document).on("click",".list-block>ul.captain_menu>.logout", function() {
         window.localStorage.setItem("loggedIn", 0);
-        window.localStorage.setItem("isIndexPage",true);
+       
         window.localStorage.removeItem("email");
         //mainView.router.loadPage("index.html");
        // router.forward("index.html");
@@ -274,6 +275,7 @@ function createContentPage() {
 
 myApp.onPageInit('login',function(page){
     window.localStorage.setItem("isIndexPage", false);
+    isIndexPage = false;
     setLanguage(window.localStorage.getItem("current_language"));
 $$("#password").attr('placeholder', lng('Password'));
 $$("#email").attr('placeholder', lng('Email'));
@@ -342,6 +344,7 @@ $$("#login_button").click(function(data){
 
 myApp.onPageInit('my_trips', function (page) {
     window.localStorage.setItem("isIndexPage", false);
+    isIndexPage = false;
     setLanguage(window.localStorage.getItem("current_language"));
    // alert("I am here2");
         $$.ajax({
@@ -403,6 +406,7 @@ myApp.onPageInit('my_trips', function (page) {
 
 myApp.onPageInit('enter_code', function (page) {
     window.localStorage.setItem("isIndexPage", false);
+    isIndexPage = false;
    // alert("hello");
     setLanguage(window.localStorage.getItem("current_language"));
   
@@ -579,6 +583,7 @@ myApp.onPageInit('filter_trip', function (page) {
 
 myApp.onPageInit('new_trip', function (page) {
     window.localStorage.setItem("isIndexPage", false);
+    isIndexPage = false;
     setLanguage(window.localStorage.getItem("current_language"));
     $$("#submit_button").val(lng('ok'));
 
@@ -683,6 +688,7 @@ $$("#submit_button").click(function(){
 
 myApp.onPageInit('form', function (page) {
     window.localStorage.setItem("isIndexPage", false);
+    isIndexPage = false;
     setLanguage(window.localStorage.getItem("current_language"));
     $$("#submit_button").val(lng('register'));
     $$("#name").attr('placeholder', lng('yourname'));
@@ -1065,6 +1071,7 @@ myApp.onPageInit('form', function (page) {
 
 myApp.onPageInit('trips', function (page) {
     window.localStorage.setItem("isIndexPage", false);
+    isIndexPage = false;
     setLanguage(window.localStorage.getItem("current_language"));
     
          $$.ajax({
@@ -1119,6 +1126,7 @@ myApp.onPageInit('trips', function (page) {
 
 myApp.onPageInit('trip_detail', function (page) {
     window.localStorage.setItem("isIndexPage", false);
+    isIndexPage = false;
     setLanguage(window.localStorage.getItem("current_language"));
         var values = page.query;
         myApp.showIndicator();
@@ -1198,6 +1206,7 @@ myApp.onPageInit('trip_detail', function (page) {
 
 myApp.onPageInit('rating', function (page) {
     window.localStorage.setItem("isIndexPage", false);
+    isIndexPage = false;
     setLanguage(window.localStorage.getItem("current_language"));
     var values = page.query;
 
@@ -1349,6 +1358,7 @@ myApp.onPageInit('rating', function (page) {
 
 myApp.onPageInit('settings', function (page) {
     window.localStorage.setItem("isIndexPage", false);
+    isIndexPage = false;
     setLanguage(window.localStorage.getItem("current_language"));
 
     if (window.localStorage.getItem("current_language") == 'ar'){
