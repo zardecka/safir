@@ -74,8 +74,8 @@ function onDeviceReady() {
 function onBackKeyDown() {
 
     if (isIndexPage){
-       // alert(exit);
-        navigator.app.exitApp();
+       alert(isIndexPage);
+        //navigator.app.exitApp();
     }
     else{
         isIndexPage = true;
