@@ -307,7 +307,7 @@ $$("#login_button").click(function(data){
             
             else{
               //  $$('.alert-text-title').on('click', function () {
-                myApp.alert('', lng('107'));
+                myApp.alert('', lng('msg107'));
               //  });
             }
 
