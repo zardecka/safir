@@ -73,18 +73,18 @@ function onDeviceReady() {
 
 function onBackKeyDown() {
 
- /*    if (isIndexPage){
+    if (window.localStorage.getItem("isIndexPage")){
        alert(isIndexPage);
         //navigator.app.exitApp();
-    } */
-   // else{
+    } 
+    else{
       //  isIndexPage = true;
         mainView.router.loadPage({
             url: 'index.html',
             ignoreCache: true,
             reload: true
         });
-  //  }
+    }
    
 }
 
