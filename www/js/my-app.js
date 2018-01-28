@@ -11,7 +11,7 @@ $(document).on('pageInit', '.page[data-page="index"]',  function(e){
 // Initialize your app
 var myApp = new Framework7(
     { material: true,}
-);
+);  
 
 // Export selectors engine
 var $$ = Dom7;
@@ -25,6 +25,7 @@ var carimage = baseURL + 'images/';
 var googleplay = 'https://play.google.com/store/apps/details?id=com.phonegap.safir';
 var appstore = '';
 var currentVersion = 15;
+var isIndexPage = true;
 // Add view
 var mainView = myApp.addView('.view-main', {
     // Because we use fixed-through navbar we can enable dynamic navbar
@@ -33,6 +34,13 @@ var mainView = myApp.addView('.view-main', {
 
 
 function onDeviceReady() {
+
+
+    if (window.localStorage.getItem("current_language") === null) {
+        window.localStorage.setItem("current_language","ar");
+    }
+
+
     document.addEventListener("backbutton", onBackKeyDown, false);
 
     var deviceType = (navigator.userAgent.match(/iPad/i)) == "iPad" ? "iPad" : (navigator.userAgent.match(/iPhone/i)) == "iPhone" ? "iPhone" : (navigator.userAgent.match(/Android/i)) == "Android" ? "Android" : (navigator.userAgent.match(/BlackBerry/i)) == "BlackBerry" ? "BlackBerry" : "null";
@@ -64,16 +72,27 @@ function onDeviceReady() {
 } 
 
 function onBackKeyDown() {
-    mainView.router.loadPage({
-        url: 'index.html',
-        ignoreCache: true,
-        reload: true
-    });
+
+    if (window.localStorage.getItem("isIndexPage")==true){
+      // alert(isIndexPage);
+        navigator.app.exitApp();
+    } 
+    else{
+        window.localStorage.getItem("isIndexPage") = true;
+      //  isIndexPage = true;
+        mainView.router.loadPage({
+            url: 'index.html',
+            ignoreCache: true,
+            reload: true
+        });
+    }
+   
 }
 
 // Callbacks to run specific code for specific pages, for example for About page:
 myApp.onPageInit('about', function (page) {
- 
+    window.localStorage.setItem("isIndexPage",false);
+    isIndexPage = false;
    saveData();
    console.log("after");
    
@@ -96,7 +115,7 @@ myApp.onPageInit('about', function (page) {
 
 
 myApp.onPageInit('index', function (page) {
-
+    setLanguage(window.localStorage.getItem("current_language"));
 
 
     if (navigator.userAgent.match(/(iPhone|iPod|iPad|Android|BlackBerry)/)) {
@@ -163,11 +182,11 @@ myApp.onPageInit('index', function (page) {
           sharelink = 'https://play.google.com/store/apps/details?id=com.phonegap.safir';          
        }        
        var options = {
-           message: 'حمل تطبيق سافر واستمتع بتجربة سفر مميزة!', // not supported on some apps (Facebook, Instagram)
-           subject: 'مشاركة التطبيق', // fi. for email
+           message: lng('downloadsafer'), // not supported on some apps (Facebook, Instagram)
+           subject: lng('shareapp'), // fi. for email
            files: ['', ''], // an array of filenames either locally or remotely
            url: sharelink,
-           chooserTitle: 'شارك التطبيق على ' // Android only, you can override the default share sheet title
+           chooserTitle: lng('shareappon') // Android only, you can override the default share sheet title
        }
 
        var onSuccess = function (result) {
@@ -185,6 +204,7 @@ myApp.onPageInit('index', function (page) {
 
    $$(document).on("click",".list-block>ul.captain_menu>.logout", function() {
         window.localStorage.setItem("loggedIn", 0);
+       
         window.localStorage.removeItem("email");
         //mainView.router.loadPage("index.html");
        // router.forward("index.html");
@@ -255,7 +275,9 @@ function createContentPage() {
 }
 
 myApp.onPageInit('login',function(page){
-setLanguage("en");
+    window.localStorage.setItem("isIndexPage", false);
+    isIndexPage = false;
+    setLanguage(window.localStorage.getItem("current_language"));
 $$("#password").attr('placeholder', lng('Password'));
 $$("#email").attr('placeholder', lng('Email'));
 $$("#login_button").val(lng('ok'));
@@ -288,7 +310,8 @@ $$("#login_button").click(function(data){
                     reload: true}); 
                    // mainView.router.loadPage("index.html");
             } else if(data.code == 2){
-                myApp.alert('', data.message);
+                
+                myApp.alert('', lng('msg2'));
                 mainView.router.loadPage({
                     url: 'enter_code.html?captain_id=' + data.captain_id,
                     ignoreCache: true,
@@ -298,7 +321,7 @@ $$("#login_button").click(function(data){
             
             else{
               //  $$('.alert-text-title').on('click', function () {
-                    myApp.alert('',data.message);
+                myApp.alert('', lng('msg107'));
               //  });
             }
 
@@ -321,7 +344,9 @@ $$("#login_button").click(function(data){
 
 
 myApp.onPageInit('my_trips', function (page) {
-  
+    window.localStorage.setItem("isIndexPage", false);
+    isIndexPage = false;
+    setLanguage(window.localStorage.getItem("current_language"));
    // alert("I am here2");
         $$.ajax({
             type: 'POST',
@@ -346,12 +371,12 @@ myApp.onPageInit('my_trips', function (page) {
                                '<div class="item-media"><img src="' + carimage + item.carimage  + '?=' + new Date().getTime() +'" width="80"></div>' +
                             '<div class="item-inner">' +
                             '<div class="item-title-row">' +
-                            '<div class="item-title cityfromto"> ' + item.cfrom + '->' + item.cto + '</div>' +
+                            '<div class="item-title cityfromto"> ' +lng(item.cfrom) + '->' + lng(item.cto) + '</div>' +
                             '<!--div class="item-after">$15</div-->' +
                             '</div>' +
                             '<div class="item-subtitle">' + item.car + '</div>' +
                                '<div class="item-text">' + item.captain + '</div>' +
-                            '<div class="item-text isfullclass">' + (item.isfull==1?"اكتمل العدد":"")  + '</div>' +
+                               '<div class="item-text isfullclass">' + (item.isfull == 1 ? lng('fullpassengers'):"")  + '</div>' +
                             '</div>' +
                             '</a>' +
                            // '</li>';
@@ -367,7 +392,7 @@ myApp.onPageInit('my_trips', function (page) {
                         context: { trip_context: trip_context }
                     }); */
                 } else {
-                    myApp.alert('', data.messaage);
+                    myApp.alert('',lng('msg101'));
                 }
 
             },
@@ -381,7 +406,12 @@ myApp.onPageInit('my_trips', function (page) {
     });
 
 myApp.onPageInit('enter_code', function (page) {
+    window.localStorage.setItem("isIndexPage", false);
+    isIndexPage = false;
    // alert("hello");
+    setLanguage(window.localStorage.getItem("current_language"));
+  
+    $$("#activation_code").attr('placeholder', lng('activationcode'));
     var values = page.query;   
     var captain_id = values.captain_id;
 
@@ -399,14 +429,14 @@ myApp.onPageInit('enter_code', function (page) {
             success: function (data) {
                 myApp.hideIndicator();
                 if(data.code == 0){
-                    myApp.alert('', "تم تنشيط حسابك، فضلا سجل الدخول");
+                    myApp.alert('', lng('accountactivated'));
                     mainView.router.loadPage({
                         url: 'login.html',
                         ignoreCache: true,
                         reload: true
                     });
                 }else{
-                    myApp.alert('',data.message);
+                    myApp.alert('', lng('msg106'));
                 }
 
             },
@@ -423,7 +453,36 @@ myApp.onPageInit('enter_code', function (page) {
     });
 });
 myApp.onPageInit('filter_trip', function (page) {
+    window.localStorage.setItem("isIndexPage", false);
+    isIndexPage = false;
+    setLanguage(window.localStorage.getItem("current_language"));
+    $$("#trip_date").attr('placeholder', lng('tripdate'));
+    $$("#submit_button").val(lng('ok'));
+    $$(".Riyadh").html(lng('Riyadh'));
+    $$(".Jeddah").html(lng('Jeddah'));
+    $$(".Mecca").html(lng('Mecca'));
+    $$(".Dammam").html(lng('Dammam'));
+    $$(".Madina").html(lng('Madina'));
+    $$(".Zahran").html(lng('Zahran'));
+    $$(".Jubail").html(lng('Jubail'));
+    $$(".Alkhobar").html(lng('Alkhobar'));
+    $$(".Qassim").html(lng('Qassim'));
+    $$(".Taif").html(lng('Taif'));
+    $$(".Ihsaa").html(lng('Ihsaa'));
+    $$(".Aseer").html(lng('Aseer'));
+    $$(".Jazan").html(lng('Jazan'));
+    $$(".Najran").html(lng('Najran'));
+    $$(".Tabook").html(lng('Tabook'));
+    $$(".Beesha").html(lng('Beesha'));
+    $$(".Alkharj").html(lng('Alkharj'));
+    $$(".WadiAldawasir").html(lng('WadiAldawasir'));
+    $$(".KhameesMushet").html(lng('KhameesMushet'));
+    $$(".Hail").html(lng('Hail'));
+    $$(".Bahrain").html(lng('Bahrain'));
+    $$(".Yanbu").html(lng('Yanbu'));
+    $$(".Baha").html(lng('Baha'));
    
+    
       //function today(){
         var today = new Date();
         var dd = today.getDate();
@@ -451,7 +510,7 @@ myApp.onPageInit('filter_trip', function (page) {
 
 
          if ($trip_date === '') {
-             myApp.alert('', "فضلا حدد تاريخ الرحلة  ");
+             myApp.alert('', lng(determin_tripdate));
              isvalid = false;
              myApp.hideIndicator();
          }
@@ -465,8 +524,8 @@ myApp.onPageInit('filter_trip', function (page) {
                     data:  JSON.stringify ({
                         tfrom: $trimp_from,
                         tto:$trip_to,
-                        trip_date:$trip_date,
-                        ttime:$ttime
+                        trip_date:$trip_date
+                       
                     }),
                     success: function(data) {
                     
@@ -507,7 +566,7 @@ myApp.onPageInit('filter_trip', function (page) {
                                     context:{trip_context:trip_context}
                                 }); 
                         }else{
-                            myApp.alert('',data.messaage);
+                            myApp.alert('',lng('msg102'));
                         }
                     
                     },
@@ -524,6 +583,35 @@ myApp.onPageInit('filter_trip', function (page) {
 
 
 myApp.onPageInit('new_trip', function (page) {
+    window.localStorage.setItem("isIndexPage", false);
+    isIndexPage = false;
+    setLanguage(window.localStorage.getItem("current_language"));
+    $$("#submit_button").val(lng('ok'));
+
+    $$(".Riyadh").html(lng('Riyadh'));
+    $$(".Jeddah").html(lng('Jeddah'));
+    $$(".Mecca").html(lng('Mecca'));
+    $$(".Dammam").html(lng('Dammam'));
+    $$(".Madina").html(lng('Madina'));
+    $$(".Zahran").html(lng('Zahran'));
+    $$(".Jubail").html(lng('Jubail'));
+    $$(".Alkhobar").html(lng('Alkhobar'));
+    $$(".Qassim").html(lng('Qassim'));
+    $$(".Taif").html(lng('Taif'));
+    $$(".Ihsaa").html(lng('Ihsaa'));
+    $$(".Aseer").html(lng('Aseer'));
+    $$(".Jazan").html(lng('Jazan'));
+    $$(".Najran").html(lng('Najran'));
+    $$(".Tabook").html(lng('Tabook'));
+    $$(".Beesha").html(lng('Beesha'));
+    $$(".Alkharj").html(lng('Alkharj'));
+    $$(".WadiAldawasir").html(lng('WadiAldawasir'));
+    $$(".KhameesMushet").html(lng('KhameesMushet'));
+    $$(".Hail").html(lng('Hail'));
+    $$(".Bahrain").html(lng('Bahrain'));
+    $$(".Yanbu").html(lng('Yanbu'));
+    $$(".Baha").html(lng('Baha'));
+
 
     if (window.localStorage.getItem("loggedIn") == 1) {
         $$(".list-block>ul.captain_menu").show();
@@ -574,7 +662,7 @@ $$("#submit_button").click(function(){
            // console.log(data.code);
             if(data.code == 0){
 
-                myApp.alert('',data.message);
+                myApp.alert('', lng('msg111'));
                 mainView.router.loadPage({
                     url: 'my_trips.html',
                     ignoreCache: true,
@@ -583,7 +671,7 @@ $$("#submit_button").click(function(){
             }
 
             else{
-                myApp.alert('',data.message);
+                myApp.alert('',lng('msg'+ data.code));
             }
            
         },
@@ -600,20 +688,24 @@ $$("#submit_button").click(function(){
 
 
 myApp.onPageInit('form', function (page) {
+    window.localStorage.setItem("isIndexPage", false);
+    isIndexPage = false;
+    setLanguage(window.localStorage.getItem("current_language"));
+    $$("#submit_button").val(lng('register'));
     $$("#name").attr('placeholder', lng('yourname'));
-    $$("#email").attr('placeholder', lng('Email'));
-    $$("#password").attr('placeholder', lng('Password'));
+    $$("#email").attr('placeholder', lng('youremail'));
+    $$("#password").attr('placeholder', lng('password'));
     $$("#brand").attr('placeholder', lng('brand'));
-    $$("#model").attr('placeholder', lng('model'));
-    $$("#email").attr('placeholder', lng('yourname'));
-  $$("#submit_button").val(lng('ok'));
+    $$("#model").attr('placeholder', lng('carname'));
+    $$("#year").attr('placeholder', lng('madeyear'));
+    $$("#btnTakePicture1").attr('placeholder', lng('edit_car_image'));
     $$('.open-image-modal').on('click', function () {
         myApp.modal({
-            title: 'ارفق صورة',
-            text: 'اختر طريقة ارفاق الصورة',
+            title: lng('attach_image'),
+            text: lng('chap'),
             buttons: [
                 {
-                    text: 'الكاميرا',
+                    text: lng('camera'),
                     onClick: function () {
                         console.log("hello");
 
@@ -677,7 +769,7 @@ myApp.onPageInit('form', function (page) {
                     }
                 },
                 {
-                    text: 'الاستوديو',
+                    text: lng('gallery'),
                     onClick: function () {
                         console.log("hello");
 
@@ -750,66 +842,66 @@ myApp.onPageInit('form', function (page) {
 //$$('form.ajax-submit').on('form:success', function (e) {
    // $$('form.ajax-submit').submit(function(e){
     $$("#submit_button").click(function (data) {
-
+       
         var isvalid = true;
    // var xhr = e.detail.xhr; // actual XHR object
    myApp.showIndicator();
   //  var data = e.detail.data; // Ajax response from action file
     // do something with response data
-$name = $$('#name').val();
-$email = $$('#email').val();
-$password = $$('#password').val();
-$mobile = $$('#mobile').val();
-$brand = $$('#brand').val();
-$model = $$('#model').val();
-$year = $$('#year').val();
-$fileURI = $$('#imgArea').attr('src');
+    $name = $$('#name').val();
+    $email = $$('#email').val();
+    $password = $$('#password').val();
+    $mobile = $$('#mobile').val();
+    $brand = $$('#brand').val();
+    $model = $$('#model').val();
+    $year = $$('#year').val();
+    $fileURI = $$('#imgArea').attr('src');
 //$image = $$('#image').val();
 
         if ($name===''){
-            myApp.alert('', "الاسم مطلوب");
+            myApp.alert('', lng('namerequired'));
             isvalid = false;
             myApp.hideIndicator();
         }
 
         if ($email === '') {
-            myApp.alert('', "البريد الالكتروني مطلوب");
+            myApp.alert('', lng('emailrequired'));
             isvalid = false;
             myApp.hideIndicator();
         }
 
         if ($password === '') {
-            myApp.alert('', "كلمة المرور مطلوبة");
+            myApp.alert('', lng('passwordrequired'));
             isvalid = false;
             myApp.hideIndicator();
         }
 
         if ($mobile === '') {
-            myApp.alert('', "رقم الجوال مطلوب");
+            myApp.alert('', lng('mobilerequired'));
             isvalid = false;
             myApp.hideIndicator();
         }
 
         if ($brand === '') {
-            myApp.alert('', "العلامة التجارية للسيارة مطلوبة");
+            myApp.alert('', lng('brandrequired'));
             isvalid = false;
             myApp.hideIndicator();
         }
 
         if ($model === '') {
-            myApp.alert('', "موديل السيارة مطلوب");
+            myApp.alert('', lng('modelrequired'));
             isvalid = false;
             myApp.hideIndicator();
         }
 
         if ($year === '') {
-            myApp.alert('', "سنة الصنع مطلوبة");
+            myApp.alert('', lng('yearrequired'));
             isvalid = false;
             myApp.hideIndicator();
         }
 
         if ($fileURI === ''){
-            myApp.alert('', "ارفق صورة للسيارة الخاصة بك");
+            myApp.alert('', lng('photorequired'));
             isvalid = false;
             myApp.hideIndicator();
         }
@@ -840,7 +932,7 @@ $fileURI = $$('#imgArea').attr('src');
                             reload: true
                         }); */
                     } else {
-                        myApp.alert('', data.message);
+                        myApp.alert('', lng('msg'+data.code));
                     }
                     console.log(data.code);
 
@@ -979,7 +1071,9 @@ $fileURI = $$('#imgArea').attr('src');
 
 
 myApp.onPageInit('trips', function (page) {
-    
+    window.localStorage.setItem("isIndexPage", false);
+    isIndexPage = false;
+    setLanguage(window.localStorage.getItem("current_language"));
     
          $$.ajax({
             type: 'POST',
@@ -999,6 +1093,7 @@ myApp.onPageInit('trips', function (page) {
                    '</div>'+
                    '<div class="item-subtitle">'+item.car+'</div>'+
                    '<div class="item-text">'+item.captain+'</div>'+
+                   '<div class="item-text">' + item.trip_date_name+'  '+item.trip_time + '</div>' +
                  '</div>'+
                '</a>'+
              '</li>');
@@ -1031,7 +1126,9 @@ myApp.onPageInit('trips', function (page) {
 
 
 myApp.onPageInit('trip_detail', function (page) {
-    
+    window.localStorage.setItem("isIndexPage", false);
+    isIndexPage = false;
+    setLanguage(window.localStorage.getItem("current_language"));
         var values = page.query;
         myApp.showIndicator();
        var tripid =  values.tripid;
@@ -1046,9 +1143,9 @@ myApp.onPageInit('trip_detail', function (page) {
                 if (window.localStorage.getItem("loggedIn") == 1) {
                     $$("#captain").html('<span>'+item.captain+'</span>');
                     if(item.isfull == 1){
-                        $$("#done_button").html('<p style="font-size: 10px;color:red;">اكتمل العدد</p>');
+                        $$("#done_button").html('<p style="font-size: 10px;color:red;">' + lng('fullpassengers')+'</p>');
                     }else{
-                    $$("#done_button").html('<a href="#"  class="button button-fill color-red button-round mark-full">تم</a>');
+                        $$("#done_button").html('<a href="#"  class="button button-fill color-red button-round mark-full">' + lng('done')+'</a>');
                     }
                 }else{
                     $$("#captain").html('<span><a href="rating.html?captain_id=' + item.captain_id + '" data-reload="true"> ' + item.captain + '</a></span>');
@@ -1085,7 +1182,7 @@ myApp.onPageInit('trip_detail', function (page) {
                 data: JSON.stringify({ trip_id: tripid, captain_id: window.localStorage.getItem("captain_id")}),
                 success: function (data) {
                     myApp.hideIndicator();
-                    $$("#done_button").html('<p style="font-size: 10px;color:red;">اكتمل العدد</p>');
+                    $$("#done_button").html('<p style="font-size: 10px;color:red;">' + lng('fullpassengers')+'</p>');
                     
                     
                 },
@@ -1109,7 +1206,9 @@ myApp.onPageInit('trip_detail', function (page) {
 
 
 myApp.onPageInit('rating', function (page) {
-
+    window.localStorage.setItem("isIndexPage", false);
+    isIndexPage = false;
+    setLanguage(window.localStorage.getItem("current_language"));
     var values = page.query;
 
     var captain_id = values.captain_id;
@@ -1258,8 +1357,53 @@ myApp.onPageInit('rating', function (page) {
     }
 
 
-myApp.onPageInit('setting', function (page) {
-    
-     
-    
+myApp.onPageInit('settings', function (page) {
+    window.localStorage.setItem("isIndexPage", false);
+    isIndexPage = false;
+    setLanguage(window.localStorage.getItem("current_language"));
+
+    if (window.localStorage.getItem("current_language") == 'ar'){
+        $$(".currentlanguage").html(lng('arabic'));
+    }else{
+       
+        $$(".currentlanguage").html(lng('english'));
+    }
+  //  alert(window.localStorage.getItem("loggedIn"));
+    $$('.lang-popup').on('click', function () {
+        myApp.modal({
+            title: lng('language'),
+            text: lng('language'),
+            buttons: [
+                {
+                    text: lng('arabic'),
+                    onClick: function () { 
+
+                        window.localStorage.setItem("current_language", "ar");
+                        setLanguage("ar");
+                        mainView.router.loadPage({
+                            url: 'index.html',
+                            ignoreCache: true,
+                            reload: true
+                        });
+                    }
+
+
+                },
+            {
+                text: lng('english'),
+                onClick: function () {  
+
+                    window.localStorage.setItem("current_language", "en");
+                    setLanguage("en");
+                    mainView.router.loadPage({
+                        url: 'index.html',
+                        ignoreCache: true,
+                        reload: true
+                    });
+                 }
+            },
+
+            ]
+        });
+    });
 });
