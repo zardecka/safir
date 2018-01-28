@@ -1,5 +1,15 @@
 myApp.onPageInit('captain_profile', function (page) {
 
+    setLanguage("en");
+    $$("#name").attr('placeholder', lng('yourname'));
+    $$("#email").attr('placeholder', lng('youremail'));
+    $$("#password").attr('placeholder', lng('password'));
+    $$("#brand").attr('placeholder', lng('brand'));
+    $$("#model").attr('placeholder', lng('carname'));
+    $$("#year").attr('placeholder', lng('year'));
+    $$("#btnTakePicture1").attr('placeholder', lng('edit_car_image'));
+
+
     myApp.showIndicator();
 
     $$.ajax
@@ -50,11 +60,11 @@ myApp.onPageInit('captain_profile', function (page) {
 
     $$('.update-image-modal').on('click', function () {
         myApp.modal({
-            title: 'ارفق صورة',
-            text: 'اختر طريقة ارفاق الصورة',
+            title: lng('attach_image'),
+            text: lng('chap'),
             buttons: [
                 {
-                    text: 'الكاميرا',
+                    text: lng('camera'),
                     onClick: function () {
                         console.log("camera");
                      //   $$('#imgArea').on('click', function () {
@@ -123,7 +133,7 @@ myApp.onPageInit('captain_profile', function (page) {
                 },
 
                 {
-                    text: 'الاستوديو',
+                    text: lng('gallery'),
                     onClick: function () {
                      //   $$('#imgArea').on('click', function () {
                             console.log("hello");
