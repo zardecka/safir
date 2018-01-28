@@ -73,19 +73,19 @@ function onDeviceReady() {
 
 function onBackKeyDown() {
 
-    if (window.localStorage.getItem("isIndexPage")==true){
+  /*  if (window.localStorage.getItem("isIndexPage")==true){
       // alert(isIndexPage);
         navigator.app.exitApp();
-    } 
-    else{
-        window.localStorage.getItem("isIndexPage") = true;
+    } */
+   // else{
+     //   window.localStorage.getItem("isIndexPage") = true;
       //  isIndexPage = true;
         mainView.router.loadPage({
             url: 'index.html',
             ignoreCache: true,
             reload: true
         });
-    }
+  //  }
    
 }
 
