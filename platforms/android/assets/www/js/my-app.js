@@ -78,6 +78,7 @@ function onBackKeyDown() {
         navigator.app.exitApp();
     } 
     else{
+        window.localStorage.getItem("isIndexPage") = true;
       //  isIndexPage = true;
         mainView.router.loadPage({
             url: 'index.html',
